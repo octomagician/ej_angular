@@ -1,0 +1,17 @@
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <app-user-profile 
+        *ngFor="let currentProfile of profileList" 
+        [profile]="currentProfile"></app-user-profile>
+
+        <!--EJEMPLO COMPONENTE DENTRO DE OTRO COMPONENTE
+        <app-user-profile></app-user-profile>
+        -->
+
+        <!-- EJEMPLO DE DIRECTIVAS
+        <app-user-profile 
+        *ngFor="let currentProfile of profileList" 
+        [profile]="currentProfile"></app-user-profile>
+        -->
+    </div>
+  </div>
