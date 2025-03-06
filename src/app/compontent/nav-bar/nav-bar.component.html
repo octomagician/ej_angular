@@ -1,29 +1,64 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg">
+  <a class="navbar-brand"><a routerLink="home" class="nav-link">Grey-Sloan Memorial</a></a> <!--INICIO-->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
+      
+      <!--only appears if you're offline-->
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a routerLink="entrar" class="nav-link">Entrar</a>
       </li>
+      <!--
+      user create && (personas + personal)
+      -->
+
+      <!--only appears if you're online-->
       <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
+        <a routerLink="perfil" class="nav-link">Perfil</a> 
       </li>
+      <!--
+      USERS CAN
+      user read && (personas + personal)
+      user update && (personas + personal)
+      user delete && (personas + personal)
+
+      ADMIN CAN
+      user read ALL
+      -->
+
       <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+        <a routerLink="ingresos" class="nav-link">Ingresos</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown link
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+      <!--
+      pacientes create read update (ergo includes personas and user)
+      diagnósticos crud
+      historial crud
+      -->
+
+      <li class="nav-item">
+        <a routerLink="estudios" class="nav-link">Estudios</a>
       </li>
+      <!--
+      estudios crud
+      -->
+
+      <!--only appears if you're administrator-->
+      <li class="nav-item">
+        <a routerLink="gestion" class="nav-link">Gestión</a>
+      </li>//areas, camas, 
+
+      <!--
+      areas crud
+      camas crud
+      tipos de personal 
+      personal&pacientes read ALL
+      personal&pacientes delete
+      personal update their tipos de personal
+      tipo de estudio crud
+      -->
+
     </ul>
   </div>
 </nav>
