@@ -49,25 +49,29 @@ export class EntrarComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
-  console.log('onSubmit() llamado. Enviando datos...');
-  const userCredentials: Partial<User> = {
-    email: this.email,
-    password: this.password,
-  };
-
-  this.authService.registerUser(userCredentials as User).subscribe({
-    next: (response) => {
-      console.log('Respuesta del servidor recibida:', response);
-      localStorage.setItem('token', response.token);
-      this.datosNoGuardados = false;
-      console.log('Navegando a /home...');
-      this.router.navigate(['/home']);
-    },
-    error: () => {
-      console.error('Error en el login. Mostrando mensaje de error...');
-      this.errorMessage = 'Credenciales inválidas, intenta de nuevo.';
-    },
-  });
-}
+    console.log('onSubmit() llamado. Enviando datos...');
+    const userCredentials: Partial<User> = {
+      email: this.email,
+      password: this.password,
+    };
+  
+    this.authService.loginUser(userCredentials as User).subscribe({
+      next: (response) => {
+        console.log('Respuesta del servidor recibida:', response);
+        localStorage.setItem('token', response.token);
+        this.datosNoGuardados = false;
+        console.log('Navegando a /home...');
+        this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.error('Error en el login. Mostrando mensaje de error...', error);
+        if (error.status === 422) {
+          this.errorMessage = 'Error de validación: ' + JSON.stringify(error.error);
+        } else {
+          this.errorMessage = 'Credenciales inválidas, intenta de nuevo.';
+        }
+      },
+    });
+  }
 
 }

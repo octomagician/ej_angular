@@ -10,7 +10,7 @@ import { of } from 'rxjs';
 })
 
 export class AuthService {
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = 'http://127.0.0.1:8000/api/';
 
   constructor(private http: HttpClient) {} //instancia para inyectarse en el constructor
 
@@ -26,7 +26,7 @@ export class AuthService {
 
   // Login de usuario
   loginUser(user: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, user).pipe(
+    return this.http.post(`${this.baseUrl}login`, user).pipe(
       catchError((error) => {
         console.error('Error en el login', error);
         return of(null);
