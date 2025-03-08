@@ -26,12 +26,7 @@ export class AuthService {
 
   // Login de usuario
   loginUser(user: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}login`, user).pipe(
-      catchError((error) => {
-        console.error('Error en el login', error);
-        return of(null);
-      })
-    );
+    return this.http.post(`${this.baseUrl}login`, user);
   }
 
   // Obtener datos del usuario autenticado
@@ -55,5 +50,10 @@ export class AuthService {
   resetPassword(email: string): Observable<any> {
     const url = `${this.baseUrl}v2/reset-password`;
     return this.http.post(url, { email });
+  }
+
+  //Volver a mandar correo para activar
+  resendActivationEmail(user: User): Observable<any> {
+    return this.http.post('http://127.0.0.1:8000/api/resend-activation', user);
   }
 }

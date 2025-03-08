@@ -1,5 +1,10 @@
 import { CanDeactivate } from '@angular/router';
 import { Check } from '../interface/check';
+import { Injectable } from '@angular/core'; 
+
+@Injectable({
+  providedIn: 'root',
+})
 
 export class ExitGuard implements CanDeactivate<Check> {
   canDeactivate(component: Check): boolean {

@@ -26,6 +26,7 @@ export const routes: Routes = [
         path: 'entrar',
         component: EntrarComponent,
         title: 'Entrar',
+        canDeactivate: [ExitGuard],
       },
             {
               path: 'registrarse',
