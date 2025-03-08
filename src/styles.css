@@ -2,10 +2,10 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background-color: #0d1b2a; /* Fondo oscuro para toda la página */
+    background-color: #0d1b2a;
     font-family: 'Roboto', sans-serif;
-    font-size: 1rem; /* Tamaño de fuente base */
-    color: white; /* Color de texto predeterminado */
+    font-size: 1rem;
+    color: white; 
 }
 
 body {
@@ -14,30 +14,11 @@ body {
 }
 
 a {
-    color: blue; /* Cambia el color a tu preferencia */
-    text-decoration: underline; /* Subraya el enlace */
+    color: #415A77;
+    text-decoration: underline;
 }
 
-/* Estilos para el navbar */
-app-nav-bar {
-    width: 100%;
-    background-color: #1b263b; /* Color de fondo del navbar */
-}
-
-/* Estilos personalizados para el navbar de Bootstrap */
-.navbar {
-    padding: 0.5rem 1rem; /* Ajusta el padding del navbar */
-    background-color: #1b263b !important; /* Fondo del navbar */
-}
-
-.navbar-brand, .nav-link {
-    color: white !important; /* Color del texto del navbar */
-}
-
-.navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.1); /* Color del borde del botón toggler */
-}
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+/* Estilos para lo forms */
+div.form-group {
+    margin-bottom: 1rem; /* Espacio entre los elementos del formulario */
 }

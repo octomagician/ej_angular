@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+//components
 import { HomeComponent } from './layout/home/home.component';
 import { NotfoundComponent } from './layout/notfound/notfound.component';
 import { EntrarComponent } from './layout/entrar/entrar.component';
@@ -7,6 +8,8 @@ import { PerfilComponent } from './layout/perfil/perfil.component';
 import { IngresosComponent } from './layout/ingresos/ingresos.component';
 import { EstudiosComponent } from './layout/estudios/estudios.component';
 import { GestionComponent } from './layout/gestion/gestion.component';
+//guards
+import { ExitGuard } from './guard/exit.guard';
 
 export const routes: Routes = [
     {
@@ -24,11 +27,12 @@ export const routes: Routes = [
         component: EntrarComponent,
         title: 'Entrar',
       },
-      {
-        path: 'registrarse',
-        component: RegistrarseComponent,
-        title: 'Registrarse',
-      },
+            {
+              path: 'registrarse',
+              component: RegistrarseComponent,
+              title: 'Registrarse',
+              canDeactivate: [ExitGuard],
+            },
       {
         path: 'perfil',
         component: PerfilComponent,
