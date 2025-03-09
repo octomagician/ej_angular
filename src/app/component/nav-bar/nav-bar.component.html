@@ -10,30 +10,17 @@
       <li class="nav-item active" *ngIf="!authService.isLoggedIn()">
         <a routerLink="/entrar" class="nav-link">Entrar</a>
       </li>
-      <!--
-      user create && (personas + personal)
-      -->
 
       <!--only appears if you're online-->
       
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="perfil" class="nav-link">Perfil</a>
       </li>
-      <!--
-      USERS CAN
-      user read && (personas + personal)
-      user update && (personas + personal)
-      user delete && (personas + personal)
-
-      ADMIN CAN
-      user read ALL
-      -->
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="ingresos" class="nav-link">Ingresos</a>
       </li>
       <!--
-      pacientes create read update (ergo includes personas and user)
       diagnósticos crud
       historial crud
       -->

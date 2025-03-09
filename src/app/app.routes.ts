@@ -8,6 +8,12 @@ import { PerfilComponent } from './layout/perfil/perfil.component';
 import { IngresosComponent } from './layout/ingresos/ingresos.component';
 import { EstudiosComponent } from './layout/estudios/estudios.component';
 import { GestionComponent } from './layout/gestion/gestion.component';
+// Hijos
+import { HistoriaClinicaComponent } from './layout/miniform/historia-clinica/historia-clinica.component';
+import { ModificarExistenteComponent } from './layout/miniform/modificar-existente/modificar-existente.component';
+import { NuevoIngresoComponent } from './layout/miniform/nuevo-ingreso/nuevo-ingreso.component';
+import { PrimeraVezComponent } from './layout/miniform/primera-vez/primera-vez.component';
+import { RegistrarNuevaInformacionComponent } from './layout/miniform/registrar-nueva-informacion/registrar-nueva-informacion.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -51,6 +57,13 @@ export const routes: Routes = [
     component: IngresosComponent,
     title: 'Ingresos',
     canActivate: [AuthGuard], // Solo accesible si estás conectado
+    children: [
+      { path: 'nuevo-ingreso', component: NuevoIngresoComponent, canDeactivate: [ExitGuard] },
+      { path: 'primera-vez', component: PrimeraVezComponent, canDeactivate: [ExitGuard] },
+      { path: 'modificar-existente', component: ModificarExistenteComponent, canDeactivate: [ExitGuard] },
+      { path: 'registrar-nueva-informacion', component: RegistrarNuevaInformacionComponent, canDeactivate: [ExitGuard] },
+      { path: 'historia-clinica', component: HistoriaClinicaComponent, canDeactivate: [ExitGuard] },
+    ],
   },
   {
     path: 'estudios',

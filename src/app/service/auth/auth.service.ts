@@ -86,6 +86,16 @@ export class AuthService {
 
   //Volver a mandar correo para activar
   resendActivationEmail(user: User): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/resend-activation', user);
+    return this.http.post('${this.baseUrl}resend-activation', user);
+  }
+
+  //----------------------------
+  registerPaciente(pacienteData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post(`${this.baseUrl}v2/paciente`, pacienteData, { headers });
   }
 }

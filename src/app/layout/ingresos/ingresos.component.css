@@ -1,0 +1,55 @@
+.navbar {
+    background-color: #778DA9;
+  }
+  
+  .navbar-nav {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .nav-item {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .nav-link {
+    color: #0D1B2A;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+  }
+  
+  .nav-link:hover {
+    background-color: #E0E1DD;
+  }
+  
+  .submenu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #778DA9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .submenu .nav-item {
+    padding: 10px;
+  }
+  
+  .submenu .nav-link {
+    padding: 5px 10px;
+  }
+  
+  .contenido-dinamico {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #E0E1DD;
+  }
+
+  .nav-link.active {
+    font-weight: bold;
+    color: #E0E1DD; /* Color azul */
+  }
