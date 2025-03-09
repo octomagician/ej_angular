@@ -12,6 +12,7 @@ app-nav-bar {
     color: white !important;
 }
 
+<!--hamburguesita-->
 .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.1); /* Color del borde del botón toggler */
 }

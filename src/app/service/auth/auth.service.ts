@@ -14,6 +14,36 @@ export class AuthService {
 
   constructor(private http: HttpClient) {} //instancia para inyectarse en el constructor
 
+  // Método para iniciar sesión
+  login(credentials: { email: string; password: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}login`, credentials).pipe(
+      catchError((error) => {
+        console.error('Error en el login:', error);
+        return of(null);
+      })
+    );
+  }
+
+  // Método para guardar el token y el rol del usuario después del login
+  setUserData(token: string, role: string): void {
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', role); // Almacenar el rol del usuario
+  }
+
+  // Método para cerrar sesión
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role'); // Eliminar el rol al cerrar sesión
+  }
+
+// ---------------------------------------
+
+  // Verificar si el usuario es administrador
+  isAdmin(): boolean {
+    const role = localStorage.getItem('role');
+    return role === 'admin';
+  }
+
   isLoggedIn(): boolean {
     const token = localStorage.getItem('token');
     return !!token; // Devuelve true si el token existe
@@ -43,7 +73,9 @@ export class AuthService {
 
   // Actualizar datos de usuario
   updateUser(user: User): Observable<any> {
-    return this.http.put(`${this.baseUrl}v2/perfil`, user);
+    const token = localStorage.getItem('token'); // Obtener el token del localStorage
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Crear headers con el token
+    return this.http.put(`${this.baseUrl}v2/perfil`, user, { headers }); // Enviar la solicitud con los headers
   }
 
   //Cambiar contraseña

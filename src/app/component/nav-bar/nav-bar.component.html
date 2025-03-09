@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg">
-  <a class="navbar-brand"><a routerLink="home" class="nav-link">Grey-Sloan Memorial</a></a> <!--INICIO-->
+  <a class="navbar-brand"><a routerLink="inicio" class="nav-link">Grey-Sloan Memorial</a></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -7,16 +7,17 @@
     <ul class="navbar-nav">
       
       <!--only appears if you're offline-->
-      <li class="nav-item active">
-        <a routerLink="entrar" class="nav-link">Entrar</a>
+      <li class="nav-item active" *ngIf="!authService.isLoggedIn()">
+        <a routerLink="/entrar" class="nav-link">Entrar</a>
       </li>
       <!--
       user create && (personas + personal)
       -->
 
       <!--only appears if you're online-->
-      <li class="nav-item">
-        <a routerLink="perfil" class="nav-link">Perfil</a> 
+      
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="perfil" class="nav-link">Perfil</a>
       </li>
       <!--
       USERS CAN
@@ -28,7 +29,7 @@
       user read ALL
       -->
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="ingresos" class="nav-link">Ingresos</a>
       </li>
       <!--
@@ -37,7 +38,7 @@
       historial crud
       -->
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="estudios" class="nav-link">Estudios</a>
       </li>
       <!--
@@ -45,9 +46,9 @@
       -->
 
       <!--only appears if you're administrator-->
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isAdmin()">
         <a routerLink="gestion" class="nav-link">Gestión</a>
-      </li>//areas, camas, 
+      </li>
 
       <!--
       areas crud
@@ -58,6 +59,11 @@
       personal update their tipos de personal
       tipo de estudio crud
       -->
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a class="nav-link">.................</a>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a class="nav-link" (click)="logout()">Salir</a>
 
     </ul>
   </div>

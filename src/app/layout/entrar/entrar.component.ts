@@ -72,11 +72,19 @@ export class EntrarComponent implements OnInit {
   
     this.authService.loginUser(userCredentials as User).subscribe({
       next: (response: any) => {
-        console.log('Respuesta del servidor recibida:', response);
-        localStorage.setItem('token', response.token); // Guardar el token en localStorage
-        this.datosNoGuardados = false;
-        console.log('Navegando a /home...');
-        this.router.navigate(['/home']);
+        if (response && response.token) {
+          // Guardar el token y el rol usando el AuthService
+          this.authService.setUserData(response.token, response.role);
+
+          this.datosNoGuardados = false;
+
+          // Redirigir al usuario según su rol
+          if (response.role === 'admin') {
+            this.router.navigate(['/gestion']);
+          } else {
+            this.router.navigate(['/inicio']);
+          }
+        }
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error en el login:', error);
