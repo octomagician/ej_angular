@@ -2,19 +2,19 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLink="nuevo-ingreso" routerLinkActive="active">Registrar paciente</a>
+        <a class="nav-link" routerLink="nuevo-ingreso" routerLinkActive="active" *ngIf="authService.isAdmin()">Registrar paciente</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="primera-vez" routerLinkActive="active">Registrar ingreso a urgencias</a>
+        <a class="nav-link" routerLink="modificar-existente" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Modificar paciente</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="modificar-existente" routerLinkActive="active">Modificar paciente</a>
+        <a class="nav-link" routerLink="primera-vez" routerLinkActive="active" *ngIf="authService.isAdmin()">Registrar ingreso a urgencias</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="registrar-nueva-informacion" routerLinkActive="active">Añadir información al edo actual</a>
+        <a class="nav-link" routerLink="registrar-nueva-informacion" routerLinkActive="active" *ngIf="authService.isAdmin()">Añadir información</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="historia-clinica" routerLinkActive="active">Historia clínica</a>
+        <a class="nav-link" routerLink="historia-clinica" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Historia clínica</a>
       </li>
     </ul>
   </div>

@@ -25,7 +25,7 @@
       historial crud
       -->
 
-      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+      <li class="nav-item" *ngIf="authService.isAdmin()">
         <a routerLink="estudios" class="nav-link">Estudios</a>
       </li>
       <!--
@@ -47,10 +47,12 @@
       tipo de estudio crud
       -->
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a class="nav-link">.................</a>
+        <a class="nav-link"></a>
+      </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a class="nav-link" (click)="logout()">Salir</a>
+      </li>
 
     </ul>
   </div>

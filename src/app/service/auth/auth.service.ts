@@ -41,7 +41,7 @@ export class AuthService {
   // Verificar si el usuario es administrador
   isAdmin(): boolean {
     const role = localStorage.getItem('role');
-    return role === 'admin';
+    return role === 'Administrador';
   }
 
   isLoggedIn(): boolean {

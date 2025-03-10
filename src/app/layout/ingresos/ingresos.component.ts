@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../service/auth/auth.service';
 
 @Component({
   selector: 'app-ingresos',
@@ -10,6 +11,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./ingresos.component.css']
 })
 export class IngresosComponent {
+   constructor(public authService: AuthService, private router: Router) {}
   // Propiedades para manejar el estado del menú
   menuAbierto: string | null = null;
   subMenuAbierto: string | null = null;
