@@ -98,4 +98,29 @@ export class AuthService {
     });
     return this.http.post(`${this.baseUrl}v2/paciente`, pacienteData, { headers });
   }
+
+    // Método para obtener un paciente por su NSS
+    getPacienteByNss(nss: string): Observable<any> {
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
+  
+      return this.http.get(`${this.baseUrl}v2/paciente/${nss}`, { headers });
+    }
+  
+    // Método para actualizar un paciente
+    updatePaciente(nss: string, pacienteData: any): Observable<any> {
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
+  
+      return this.http.put(`${this.baseUrl}v2/paciente/${nss}`, pacienteData, { headers });
+    }
+
+    
+
 }

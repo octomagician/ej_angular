@@ -104,8 +104,8 @@ export class NuevoIngresoComponent {
 
     this.authService.registerPaciente(newPaciente).subscribe({
       next: (response) => {
-        this.successMessage = 'Paciente registrado con éxito.'; // Mensaje de éxito
-        this.clearForm(); // Vacía el formulario
+        this.successMessage = 'Paciente registrado con éxito.';
+        this.clearForm();
       },
       error: (error) => {
         console.error(error);
