@@ -11,7 +11,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
   selector: 'app-entrar',
   imports: [SimpleCardComponent, RouterModule, CommonModule, FormsModule],
   templateUrl: './entrar.component.html',
-  styleUrls: ['./entrar.component.css'] // Corregir aquí
+  styleUrls: ['./entrar.component.css']
 })
 
 export class EntrarComponent implements OnInit {
@@ -20,7 +20,7 @@ export class EntrarComponent implements OnInit {
   errorMessage: string = '';
   datosNoGuardados: boolean = false;
   registroExitoso: boolean = false; // Variable para controlar el mensaje
-  showResendButton: boolean = false; // Nueva variable para controlar el botón de reenvío
+  showResendButton: boolean = false; // controlar el botón de reenvío
   private errorTimeout: any; // Variable para almacenar el timeout
 
   // Método del Guard Exit
@@ -74,7 +74,7 @@ export class EntrarComponent implements OnInit {
       next: (response: any) => {
         if (response && response.token) {
           // Guardar el token y el rol usando el AuthService
-          this.authService.setUserData(response.token, response.role);
+          this.authService.setUserData(response.token, response.role, response.name);
 
           this.datosNoGuardados = false;
 

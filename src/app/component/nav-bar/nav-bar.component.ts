@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -9,8 +9,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit{
+  username: string | null = null; // Variable para almacenar el nombre del usuario
  constructor(public authService: AuthService, private router: Router) {}
+
+ ngOnInit(): void {
+  this.username = this.authService.getUserName(); // Obtener el nombre del usuario
+}
 
   // Método para cerrar sesión
   logout(): void {

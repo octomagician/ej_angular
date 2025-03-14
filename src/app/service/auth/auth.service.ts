@@ -24,11 +24,17 @@ export class AuthService {
     );
   }
 
-  // Método para guardar el token y el rol del usuario después del login
-  setUserData(token: string, role: string): void {
+  // Método para guardar el token, el rol y el nombre del usuario después del login
+  setUserData(token: string, role: string, name: string): void {
     localStorage.setItem('token', token);
-    localStorage.setItem('role', role); // Almacenar el rol del usuario
+    localStorage.setItem('role', role);
+    localStorage.setItem('usuario', name);
   }
+
+    // Método para obtener el nombre del usuario desde el localStorage
+    getUserName(): string | null {
+      return localStorage.getItem('usuario');
+    }
 
   // Método para cerrar sesión
   logout(): void {

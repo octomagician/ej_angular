@@ -55,5 +55,12 @@
       </li>
 
     </ul>
+
+    <!-- Mostrar el nombre del usuario alineado a la derecha -->
+    <ul class="navbar-nav ms-auto" *ngIf="authService.isLoggedIn()">
+      <li class="nav-item">
+        <span class="nav-link">Bienvenido, {{ username }}</span>
+      </li>
+    </ul>
   </div>
 </nav>
