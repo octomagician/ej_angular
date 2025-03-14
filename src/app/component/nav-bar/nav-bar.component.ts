@@ -13,9 +13,13 @@ export class NavBarComponent implements OnInit{
   username: string | null = null; // Variable para almacenar el nombre del usuario
  constructor(public authService: AuthService, private router: Router) {}
 
- ngOnInit(): void {
-  this.username = this.authService.getUserName(); // Obtener el nombre del usuario
-}
+  // Método para inicializar el componente
+  ngOnInit(): void {
+    // Suscribirse al Observable para recibir actualizaciones del nombre
+    this.authService.userName$.subscribe((name) => {
+      this.username = name;
+    });
+  }
 
   // Método para cerrar sesión
   logout(): void {

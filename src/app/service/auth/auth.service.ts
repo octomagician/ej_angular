@@ -3,16 +3,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../interface/user';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuthService {
+  private userNameSubject = new BehaviorSubject<string | null>(null); // BehaviorSubject para el nombre del usuario
+  public userName$ = this.userNameSubject.asObservable(); // Observable para suscribirse al nombre
   private baseUrl = 'http://127.0.0.1:8000/api/';
 
-  constructor(private http: HttpClient) {} //instancia para inyectarse en el constructor
+  constructor(private http: HttpClient) { //instancia para inyectarse en el constructor
+    this.userNameSubject.next(this.getUserName());} 
 
   // Método para iniciar sesión
   login(credentials: { email: string; password: string }): Observable<any> {
@@ -29,6 +32,7 @@ export class AuthService {
     localStorage.setItem('token', token);
     localStorage.setItem('role', role);
     localStorage.setItem('usuario', name);
+    this.userNameSubject.next(name); // Actualizar el BehaviorSubject
   }
 
     // Método para obtener el nombre del usuario desde el localStorage
@@ -39,7 +43,9 @@ export class AuthService {
   // Método para cerrar sesión
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('role'); // Eliminar el rol al cerrar sesión
+    localStorage.removeItem('role');
+    localStorage.removeItem('usuario'); 
+    this.userNameSubject.next(null);
   }
 
 // ---------------------------------------
