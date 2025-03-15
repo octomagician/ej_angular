@@ -104,7 +104,7 @@ export class AuthService {
 
   //Volver a mandar correo para activar
   resendActivationEmail(user: User): Observable<any> {
-    return this.http.post('${this.baseUrl}resend-activation', user);
+    return this.http.post(`${this.baseUrl}reenviar-codigo`, user);
   }
 
   //----------------------------

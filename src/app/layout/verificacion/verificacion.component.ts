@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SimpleCardComponent } from '../component/simple-card/simple-card.component';
+import { SimpleCardComponent } from '../../component/simple-card/simple-card.component';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../service/auth/auth.service';
+import { AuthService } from '../../service/auth/auth.service';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({

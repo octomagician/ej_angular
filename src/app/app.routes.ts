@@ -4,7 +4,8 @@ import { HomeComponent } from './layout/home/home.component';
 import { NotfoundComponent } from './layout/notfound/notfound.component';
 import { EntrarComponent } from './layout/entrar/entrar.component';
 import { RegistrarseComponent } from './layout/registrarse/registrarse.component';
-import { VerificacionComponent } from './verificacion/verificacion.component';
+import { VerificacionComponent } from './layout/verificacion/verificacion.component';
+import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reenvio-verificacion.component';
 import { PerfilComponent } from './layout/perfil/perfil.component';
 import { IngresosComponent } from './layout/ingresos/ingresos.component';
 import { EstudiosComponent } from './layout/estudios/estudios.component';
@@ -49,6 +50,11 @@ export const routes: Routes = [
   { path: 'verificacion', 
     component: VerificacionComponent,
     title: 'Verificación',
+    canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
+  },
+  { path: 'reenvio-verificacion', 
+    component: ReenvioVerificacionComponent,
+    title: 'Reenvio Verificación',
     canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
   },
   {

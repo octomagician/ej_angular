@@ -77,13 +77,7 @@ export class EntrarComponent implements OnInit {
           this.authService.setUserData(response.token, response.role, response.name);
 
           this.datosNoGuardados = false;
-
-          // Redirigir al usuario según su rol
-          if (response.role === 'admin') {
-            this.router.navigate(['/gestion']);
-          } else {
-            this.router.navigate(['/inicio']);
-          }
+          this.router.navigate(['/inicio']);
         }
       },
       error: (error: HttpErrorResponse) => {
