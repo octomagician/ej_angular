@@ -66,6 +66,12 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}v2/registrar`, user);
   }
 
+  //Código de usuario
+  verificarCodigo(email: string, codigo: string): Observable<any> {
+    const data = { email, codigo };
+    return this.http.post(`${this.baseUrl}verificar-codigo`, data); // URL completa
+  }
+
   // Login de usuario
   loginUser(user: User): Observable<any> {
     return this.http.post(`${this.baseUrl}login`, user);

@@ -18,6 +18,13 @@ a {
     text-decoration: underline;
 }
 
+/* ALERTAS */
+.alert.alert-info {
+    background-color: #775E41;
+    color: white;
+    border-color: #775E41;
+}
+
 /* Estilos para lo forms */
 div.form-group {
     margin-bottom: 1rem; /* Espacio entre los elementos del formulario */
