@@ -18,14 +18,87 @@ a {
     text-decoration: underline;
 }
 
-/* ALERTAS
-.alert.alert-info {
-    background-color: #775E41;
-    color: white;
-    border-color: #775E41;
-} */
-
 /* Estilos para lo forms */
 div.form-group {
     margin-bottom: 1rem; /* Espacio entre los elementos del formulario */
+}
+
+/* TABLAS */
+/* Estilos generales para las tablas */
+/* Estilos generales */
+h1 {
+    margin-bottom: 1rem;
+    color: #0D1B2A;
+}
+
+/* Estilos para el contenedor principal */
+.item-list {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la tabla */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #0D1B2A;
+    background-color: #FFFFFF;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    background-color: #1B263B;
+    color: #E0E1DD;
+    border-color: #1B263B;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #F5F5F5;
+}
+
+.table tbody tr:hover {
+    background-color: #778DA9;
+    color: #E0E1DD;
+}
+
+.table tbody tr.deleted {
+    background-color: #E0E1DD;
+    color: #415A77;
+}
+
+/* Estilos para los botones */
+.btn-primary {
+    background-color: #415A77;
+    border-color: #415A77;
+}
+
+.btn-primary:hover {
+    background-color: #1B263B;
+    border-color: #1B263B;
+}
+
+.btn-danger {
+    background-color: #775E41;
+    border-color: #775E41;
+}
+
+.btn-danger:hover {
+    background-color: #4E3E2B;
+    border-color: #4E3E2B;
+}
+
+/* Estilos para el buscador */
+.search input {
+    width: 200px;
+    margin-right: 10px;
+}
+
+/* Estilos para la paginación */
+app-pagination {
+    display: block;
+    margin-top: 20px;
 }

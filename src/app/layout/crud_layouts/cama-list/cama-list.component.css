@@ -1,0 +1,18 @@
+.deleted {
+    opacity: 0.5;
+    text-decoration: line-through;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    margin: 5px;
+  }

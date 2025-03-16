@@ -1,0 +1,54 @@
+<div class="item-list container mt-4">
+    <!-- Título -->
+    <h1 class="mb-4">Lista de Camas</h1>
+
+    <!-- Contenedor para el buscador y el botón de crear cama -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Buscador -->
+        <div class="search">
+            <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="searchId"
+                placeholder="Buscar por ID"
+            />
+        </div>
+
+        <!-- Botón para crear cama (solo admin) -->
+        <div *ngIf="isAdmin" class="actions">
+            <button class="btn btn-primary" routerLink="/camas/crear">Crear Cama</button>
+        </div>
+
+            <!-- Paginación -->
+            <app-pagination
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageChange)="changePage($event)"
+        ></app-pagination>
+    </div>
+
+    <!-- Tabla de camas -->
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Número de Cama</th>
+                <th>Área ID</th>
+                <th *ngIf="isAdmin">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cama of filteredCamas" [class.deleted]="cama.deleted_at">
+                <td>{{ cama.id }}</td>
+                <td>{{ cama.numero_cama }}</td>
+                <td>{{ cama.area_id }}</td>
+                <td *ngIf="isAdmin">
+                    <button *ngIf="!cama.deleted_at" class="btn btn-danger" (click)="deleteCama(cama.id!)">
+                        Eliminar
+                    </button>
+                    <span *ngIf="cama.deleted_at" class="text-muted">Eliminado</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
