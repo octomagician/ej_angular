@@ -13,7 +13,7 @@ export class NoAuthGuard implements CanActivate {
     if (!this.authService.isLoggedIn()) {
       return true;
     } else {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/inicio']);
       return false;
     }
   }

@@ -1,6 +1,6 @@
 export interface User {
   // user
-  name?: string;
+  username?: string;
   email?: string;
   password?: string;
   // persona
@@ -9,7 +9,7 @@ export interface User {
   apellido_materno?: string;
   sexo?: string;
   users_id?: number;
-  //personal
+  //user
   tipo_id?: number;
   tipo?: string;
   //

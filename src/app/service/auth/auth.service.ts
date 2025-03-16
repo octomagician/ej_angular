@@ -17,6 +17,34 @@ export class AuthService {
   constructor(private http: HttpClient) { //instancia para inyectarse en el constructor
     this.userNameSubject.next(this.getUserName());} 
 
+    // Registro de usuario
+    registerUser(user: User): Observable<any> {
+      return this.http.post(`${this.baseUrl}registrar`, user);
+    }
+
+    //Código de usuario
+    verificarCodigo(email: string, codigo: string): Observable<any> {
+      const data = { email, codigo };
+      return this.http.post(`${this.baseUrl}verificar-codigo`, data); // URL completa
+    }
+
+    //Volver a mandar correo para activar
+    resendActivationEmail(user: User): Observable<any> {
+      return this.http.post(`${this.baseUrl}reenviar-codigo`, user);
+    }
+
+
+
+
+
+
+
+
+    // Método para obtener el nombre del usuario desde el localStorage
+    getUserName(): string | null {
+      return localStorage.getItem('usuario');
+    }
+
   // Método para iniciar sesión
   login(credentials: { email: string; password: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}login`, credentials).pipe(
@@ -34,11 +62,6 @@ export class AuthService {
     localStorage.setItem('usuario', name);
     this.userNameSubject.next(name); // Actualizar el BehaviorSubject
   }
-
-    // Método para obtener el nombre del usuario desde el localStorage
-    getUserName(): string | null {
-      return localStorage.getItem('usuario');
-    }
 
   // Método para cerrar sesión
   logout(): void {
@@ -61,16 +84,9 @@ export class AuthService {
     return !!token; // Devuelve true si el token existe
   }
 
-  // Registro de usuario
-  registerUser(user: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}v2/registrar`, user);
-  }
 
-  //Código de usuario
-  verificarCodigo(email: string, codigo: string): Observable<any> {
-    const data = { email, codigo };
-    return this.http.post(`${this.baseUrl}verificar-codigo`, data); // URL completa
-  }
+
+
 
   // Login de usuario
   loginUser(user: User): Observable<any> {
@@ -102,10 +118,7 @@ export class AuthService {
     return this.http.post(url, { email });
   }
 
-  //Volver a mandar correo para activar
-  resendActivationEmail(user: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}reenviar-codigo`, user);
-  }
+
 
   //----------------------------
   registerPaciente(pacienteData: any): Observable<any> {

@@ -16,7 +16,7 @@ import { PuestoService } from '../../service/puesto/puesto.service';
 })
 export class RegistrarseComponent implements OnInit {
   // user
-  name: string = '';
+  username: string = '';
   email: string = '';
   password: string = '';
   // persona
@@ -24,7 +24,7 @@ export class RegistrarseComponent implements OnInit {
   apellido_paterno: string = '';
   apellido_materno: string = '';
   sexo: string = '';
-  // personal
+  // user
   tipo_id: number | undefined = undefined;
   puesto: any[] = [];
   // otros
@@ -74,7 +74,7 @@ export class RegistrarseComponent implements OnInit {
     const formularioVacio =
       !this.email &&
       !this.password &&
-      !this.name &&
+      !this.username &&
       !this.apellido_paterno &&
       !this.apellido_materno &&
       !this.nombre &&
@@ -95,7 +95,7 @@ export class RegistrarseComponent implements OnInit {
     const newUser: Partial<User> = {
       // json - inputs
       // usuario
-      name: this.name,
+      username: this.username,
       email: this.email,
       password: this.password,
       // persona
@@ -103,12 +103,13 @@ export class RegistrarseComponent implements OnInit {
       apellido_paterno: this.apellido_paterno,
       apellido_materno: this.apellido_materno,
       sexo: this.sexo,
-      // personal
-      tipo_id: this.tipo_id,
+      // user
+      tipo_id: this.tipo_id ?? 5, // Usa de defecto recepcionista si es undefined
     };
 
     this.authService.registerUser(newUser as User).subscribe({
       next: (response) => {
+        console.log('Respuesta del servidor:', response); // Imprime la respuesta
         this.datosNoGuardados = false;
         
         // Redirigir a la página de inicio de sesión con un parámetro

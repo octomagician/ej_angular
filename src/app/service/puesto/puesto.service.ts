@@ -8,7 +8,7 @@ import { PuestoResponse } from '../../interface/PuestoResponse';
 })
 
 export class PuestoService {
-  private apiUrl = 'http://127.0.0.1:8000/api/v2/puesto';
+  private apiUrl = 'http://127.0.0.1:8000/api/puesto';
 
   constructor(private http: HttpClient) {}
 

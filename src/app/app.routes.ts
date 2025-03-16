@@ -40,13 +40,6 @@ export const routes: Routes = [
     canActivate: [NoAuthGuard], // Solo accesible si no estás conectado
     canDeactivate: [ExitGuard],
   },
-  {
-    path: 'registrarse',
-    component: RegistrarseComponent,
-    title: 'Registrarse',
-    canActivate: [NoAuthGuard], // Solo accesible si no estás conectado
-    canDeactivate: [ExitGuard],
-  },
   { path: 'verificacion', 
     component: VerificacionComponent,
     title: 'Verificación',
@@ -57,6 +50,15 @@ export const routes: Routes = [
     title: 'Reenvio Verificación',
     canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
   },
+  // --------------------------------------------------------------------
+  {
+    path: 'registrarse',
+    component: RegistrarseComponent,
+    title: 'Registrarse',
+    canActivate: [NoAuthGuard], // Solo accesible si no estás conectado
+    canDeactivate: [ExitGuard],
+  },
+  // --------------------------------------------------------------------
   {
     path: 'perfil',
     component: PerfilComponent,

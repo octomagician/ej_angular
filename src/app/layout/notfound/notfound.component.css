@@ -1,0 +1,64 @@
+/* Estilos generales */
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #0D1B2A; /* Fondo oscuro */
+    color: #E0E1DD; /* Texto claro */
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Contenedor del contenido */
+  .not-found-content {
+    max-width: 600px;
+    padding: 40px;
+    background-color: #1B263B; /* Fondo del contenido */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Título */
+  .not-found-title {
+    font-size: 6rem;
+    font-weight: bold;
+    margin: 0;
+    color: #778DA9; /* Color del título */
+  }
+  
+  /* Mensaje */
+  .not-found-message {
+    font-size: 2rem;
+    margin: 20px 0;
+    color: #E0E1DD; /* Color del mensaje */
+  }
+  
+  /* Descripción */
+  .not-found-description {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    color: #E0E1DD; /* Color de la descripción */
+  }
+  
+  /* Botón */
+  .not-found-button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #E0E1DD; /* Color del texto del botón */
+    background-color: #415A77; /* Color de fondo del botón */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Efecto hover del botón */
+  .not-found-button:hover {
+    background-color: #778DA9; /* Color de fondo al pasar el mouse */
+    cursor: pointer;
+  }

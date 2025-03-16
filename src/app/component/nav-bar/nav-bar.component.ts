@@ -16,8 +16,8 @@ export class NavBarComponent implements OnInit{
   // Método para inicializar el componente
   ngOnInit(): void {
     // Suscribirse al Observable para recibir actualizaciones del nombre
-    this.authService.userName$.subscribe((name) => {
-      this.username = name;
+    this.authService.userName$.subscribe((username) => {
+      this.username = username;
     });
   }
 

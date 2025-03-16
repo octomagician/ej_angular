@@ -16,7 +16,7 @@ import { PuestoService } from '../../service/puesto/puesto.service';
 })
 export class PerfilComponent implements OnInit {
   // user
-  name: string = '';
+  username: string = '';
   email: string = '';
   password: string = '';
   // persona
@@ -61,7 +61,7 @@ export class PerfilComponent implements OnInit {
     this.authService.perfilData().subscribe({
       next: (response) => {
         // Acceder a los datos anidados
-        this.name = response.user.name;
+        this.username = response.user.username;
         this.email = response.user.email;
         this.password = ''; // No cargues la contraseña por seguridad
         this.nombre = response.persona.nombre;
@@ -70,7 +70,7 @@ export class PerfilComponent implements OnInit {
         this.sexo = response.persona.sexo;
         this.tipo_id = response.personal.tipo_id;
   
-        console.log('CargarDatosUsuario sí funcionó', response.user.name);
+        console.log('CargarDatosUsuario sí funcionó', response.user.username);
       },
       error: (error) => {
         console.error('Error al cargar los datos del usuario:', error);
@@ -96,7 +96,7 @@ export class PerfilComponent implements OnInit {
     const formularioVacio =
       !this.email &&
       !this.password &&
-      !this.name &&
+      !this.username &&
       !this.apellido_paterno &&
       !this.apellido_materno &&
       !this.nombre &&
@@ -117,7 +117,7 @@ export class PerfilComponent implements OnInit {
     const updatedUser: Partial<User> = {
       // json - inputs
       // usuario
-      name: this.name,
+      username: this.username,
       email: this.email,
       password: this.password,
       // persona
