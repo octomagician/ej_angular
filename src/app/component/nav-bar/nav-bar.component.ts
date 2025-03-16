@@ -23,7 +23,7 @@ export class NavBarComponent implements OnInit{
 
   // Método para cerrar sesión
   logout(): void {
-    this.authService.logout(); // Llama al método logout del AuthService
+    this.authService.salir(); // Llama al método logout del AuthService
     this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio
   }
 }

@@ -70,11 +70,12 @@ export class EntrarComponent implements OnInit {
       password: this.password,
     };
   
-    this.authService.loginUser(userCredentials as User).subscribe({
+    this.authService.entrar(userCredentials as User).subscribe({
       next: (response: any) => {
         if (response && response.token) {
+          
           // Guardar el token y el rol usando el AuthService
-          this.authService.setUserData(response.token, response.role, response.name);
+          this.authService.setUserData(response.token, response.role, response.username);
 
           this.datosNoGuardados = false;
           this.router.navigate(['/inicio']);

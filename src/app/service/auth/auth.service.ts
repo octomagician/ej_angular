@@ -17,6 +17,8 @@ export class AuthService {
   constructor(private http: HttpClient) { //instancia para inyectarse en el constructor
     this.userNameSubject.next(this.getUserName());} 
 
+    // -------------------------------------------------------------------- Registro de usuario
+
     // Registro de usuario
     registerUser(user: User): Observable<any> {
       return this.http.post(`${this.baseUrl}registrar`, user);
@@ -33,45 +35,62 @@ export class AuthService {
       return this.http.post(`${this.baseUrl}reenviar-codigo`, user);
     }
 
+    // -------------------------------------------------------------------- Sesión activa
 
+    // NO SÉ DÓNDE ESTOY USANDO ESTE??????????? creo que lo borraré si no lo descubro el domingo en la noche
+    // Método para iniciar sesión
+    /*
+    login(credentials: { email: string; password: string }): Observable<any> {
+      return this.http.post(`${this.baseUrl}entrar`, credentials).pipe(
+        catchError((error) => {
+          console.error('Error en el login:', error);
+          return of(null);
+        })
+      );
+    }*/
 
+    // Login de usuario que está actualmente en entrar componente
+    entrar(user: User): Observable<any> {
+      return this.http.post(`${this.baseUrl}entrar`, user);
+    }
 
-
-
-
+    // Método para guardar el token, el rol y el nombre del usuario después del login
+    setUserData(token: string, role: string, username: string): void {
+    localStorage.setItem('token', token);
+    localStorage.setItem('role', role);
+    localStorage.setItem('usuario', username);
+    this.userNameSubject.next(username); // Actualizar el BehaviorSubject
+  }
 
     // Método para obtener el nombre del usuario desde el localStorage
+    // Se usa en el NavBar y se actualiza en automático
     getUserName(): string | null {
       return localStorage.getItem('usuario');
     }
 
-  // Método para iniciar sesión
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}login`, credentials).pipe(
-      catchError((error) => {
-        console.error('Error en el login:', error);
-        return of(null);
-      })
-    );
-  }
+    // --------------------------------------------------------------------
 
-  // Método para guardar el token, el rol y el nombre del usuario después del login
-  setUserData(token: string, role: string, name: string): void {
-    localStorage.setItem('token', token);
-    localStorage.setItem('role', role);
-    localStorage.setItem('usuario', name);
-    this.userNameSubject.next(name); // Actualizar el BehaviorSubject
-  }
 
-  // Método para cerrar sesión
-  logout(): void {
+
+
+  // Método para cerrar sesión, creo que estoy usando este ahorita
+  /*logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('usuario'); 
     this.userNameSubject.next(null);
+  }*/
+
+  // logout de usuario?????? otro???????????? pero este debe ser el correcto porque usa la dirección de la api
+  salir(): Observable<any> {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('usuario'); 
+    this.userNameSubject.next(null);
+    return this.http.post(`${this.baseUrl}salir`, {});
   }
 
-// ---------------------------------------
+// --------------------------------------- para los guards
 
   // Verificar si el usuario es administrador
   isAdmin(): boolean {
@@ -88,21 +107,13 @@ export class AuthService {
 
 
 
-  // Login de usuario
-  loginUser(user: User): Observable<any> {
-    return this.http.post(`${this.baseUrl}login`, user);
-  }
+// -------------------------------------------------------------------- para el perfil
 
   // Obtener datos del usuario autenticado
   perfilData(): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${this.baseUrl}v2/perfil`, { headers });
-  }
-
-  // logout de usuario
-  logoutUser(): Observable<any> {
-    return this.http.post(`${this.baseUrl}v2/logout`, {});
   }
 
   // Actualizar datos de usuario
@@ -118,9 +129,7 @@ export class AuthService {
     return this.http.post(url, { email });
   }
 
-
-
-  //----------------------------
+  //---------------------------- PASARLO A SU PROPIO SERVICIO
   registerPaciente(pacienteData: any): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
