@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,9 @@ export class GenericService<T> {
   getAll(endpoint: string): Observable<T[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<T[]>(`${this.apiUrl}/${endpoint}`, { headers });
+    return this.http.get<{ [key: string]: T[] }>(`${this.apiUrl}/${endpoint}`, { headers }).pipe(
+      map(response => response[endpoint]) // Extrae el array de la respuesta
+    );
   }
 
   // Obtener un registro por ID

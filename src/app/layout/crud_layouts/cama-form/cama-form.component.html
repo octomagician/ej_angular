@@ -1,20 +1,5 @@
-<div class="container mt-4">
-    <h1>{{ isEditMode ? 'Editar Cama' : 'Crear Cama' }}</h1>
-
-    <!-- Mostrar el mensaje de error si existe -->
-    <div *ngIf="errorMessage" class="alert alert-danger">
-        {{ errorMessage }}
-    </div>
-
-    <form [formGroup]="camaForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <label for="numero_cama">Número de Cama</label>
-            <input type="number" class="form-control" id="numero_cama" formControlName="numero_cama">
-        </div>
-        <div class="form-group">
-            <label for="area_id">Área ID</label>
-            <input type="number" class="form-control" id="area_id" formControlName="area_id">
-        </div>
-        <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Guardar Cambios' : 'Crear Cama' }}</button>
-    </form>
-</div>
+<app-generic-form
+        [endpoint]="'camas'"
+        [fields]="fields"
+        [formTitle]="'Cama'"
+    ></app-generic-form>

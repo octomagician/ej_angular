@@ -1,0 +1,23 @@
+<div class="container mt-4">
+    <h1>{{ isEditMode ? 'Editar ' + formTitle : 'Crear ' + formTitle }}</h1>
+
+    <!-- Mostrar el mensaje de error si existe -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="genericForm" (ngSubmit)="onSubmit()">
+        <div *ngFor="let field of fields" class="form-group">
+            <label [for]="field.key">{{ field.label }}</label>
+            <input
+                [type]="field.type"
+                class="form-control"
+                [id]="field.key"
+                [formControlName]="field.key"
+            />
+        </div>
+        <button type="submit" class="btn btn-primary">
+            {{ isEditMode ? 'Guardar Cambios' : 'Crear ' + formTitle }}
+        </button>
+    </form>
+</div>
