@@ -22,12 +22,17 @@ export class CamaService {
   }
   
 
-  // Obtener una cama por ID
-  getCamaById(id: number): Observable<Cama> {
+  getCamaById(id: number): Observable<{ cama: Cama }> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Cama>(`${this.apiUrl}/${id}`, { headers });
-}
+    console.log('Realizando solicitud GET para obtener cama con ID:', id);
+    return this.http.get<{ cama: Cama }>(`${this.apiUrl}/${id}`, { headers }).pipe(
+      map((response) => {
+        console.log('Respuesta recibida:', response);
+        return response;
+      })
+    );
+  }
 
   // Crear una cama
   createCama(cama: Cama): Observable<Cama> {

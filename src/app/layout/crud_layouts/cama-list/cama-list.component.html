@@ -16,9 +16,12 @@
             />
         </div>
 
-        <!-- Botón para crear cama (solo admin) -->
+        <!-- Botón para crear cama (solo admin)
         <div *ngIf="isAdminUser" class="actions">
             <button class="btn btn-primary" routerLink="/camas/crear">Crear Cama</button>
+        </div> -->
+        <div *ngIf="isAdminUser" class="actions">
+            <button class="btn btn-primary" (click)="goToCreateCama()">Crear Cama</button>
         </div>
 
             <!-- Paginación -->
@@ -46,10 +49,13 @@
                 <td>{{ cama.area_id }}</td>
                 <td *ngIf="isAdminUser">
                     <button *ngIf="!cama.deleted_at" class="btn btn-danger" (click)="deleteCama(cama.id!)">
-                        Eliminar
+                      Eliminar
+                    </button>
+                    <button *ngIf="!cama.deleted_at" class="btn btn-warning" (click)="editCama(cama.id!)">
+                      Editar
                     </button>
                     <span *ngIf="cama.deleted_at" class="text-muted">Eliminado</span>
-                </td>
+                  </td>
             </tr>
         </tbody>
     </table>

@@ -64,12 +64,16 @@ export const routes: Routes = [
     component: CamaListComponent,
     title: 'Camas',
     canActivate: [AuthGuard]
-    //este que sigue ponerselo al componente de cama
-    //canActivate: [AdminGuard], // Solo accesible si eres administrador
   },
   {
-    path: 'camas/editar',
-    component: CamaListComponent,
+    path: 'camas/crear',
+    component: CamaFormComponent,
+    title: 'Camas Crear',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+  },
+  {
+    path: 'camas/editar/:id',
+    component: CamaFormComponent,
     title: 'Camas Editar',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
   },

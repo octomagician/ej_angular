@@ -5,10 +5,11 @@ import { Cama } from '../../../interface/cama';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../component/pagination/pagination.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cama-list',
-    imports: [CommonModule, FormsModule, PaginationComponent],
+  imports: [CommonModule, FormsModule, PaginationComponent],
   templateUrl: './cama-list.component.html',
   styleUrls: ['./cama-list.component.css'],
 })
@@ -23,7 +24,20 @@ export class CamaListComponent implements OnInit {
   itemsPerPage: number = 10; // Número de elementos por página
   totalPages: number = 0;
 
-  constructor(private camaService: CamaService, private authService: AuthService) {}
+  constructor(private camaService: CamaService, private authService: AuthService, private router: Router) {}
+
+
+  // Método para redirigir a la creación de cama
+  goToCreateCama(): void {
+    console.log('Intentando redirigir a /camas/crear'); // Depuración
+    this.router.navigate(['/camas/crear']).then((success) => {
+      if (success) {
+        console.log('Redirección exitosa a /camas/crear');
+      } else {
+        console.error('Error al redirigir a /camas/crear');
+      }
+    });
+  }
 
   ngOnInit(): void {
     // Verificar si el usuario es administrador al inicializar el componente
@@ -79,13 +93,25 @@ export class CamaListComponent implements OnInit {
 
   // Eliminar cama (soft delete)
   deleteCama(id: number): void {
-    this.camaService.deleteCama(id).subscribe(() => {
-      this.camas = this.camas.map((cama) =>
-        cama.id === id ? { ...cama, deleted_at: new Date().toISOString() } : cama
-      );
-      this.filteredCamas = this.filteredCamas.map((cama) =>
-        cama.id === id ? { ...cama, deleted_at: new Date().toISOString() } : cama
-      );
-    });
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar esta cama?');
+    if (confirmacion) {
+      this.camaService.deleteCama(id).subscribe(() => {
+        this.camas = this.camas.map((cama) =>
+          cama.id === id ? { ...cama, deleted_at: new Date().toISOString() } : cama
+        );
+        this.filteredCamas = this.filteredCamas.map((cama) =>
+          cama.id === id ? { ...cama, deleted_at: new Date().toISOString() } : cama
+        );
+        console.log('Cama eliminada correctamente');
+      }, (error) => {
+        console.error('Error al eliminar la cama:', error);
+      });
+    } else {
+      console.log('Eliminación cancelada por el usuario');
+    }
+  }
+
+  editCama(id: number): void {
+    this.router.navigate(['/camas/editar', id]);
   }
 }
