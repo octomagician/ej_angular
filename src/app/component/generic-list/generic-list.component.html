@@ -1,0 +1,48 @@
+<div class="item-list container mt-4">
+    <h1 class="mb-4">Lista de {{ endpoint | titlecase }}</h1>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Buscador -->
+        <div class="search">
+            <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="searchId"
+                placeholder="Buscar por ID"
+                (input)="searchItem()"
+                min="0"
+            />
+        </div>
+
+        <!-- Botón para crear -->
+        <div *ngIf="isAdminUser" class="actions">
+            <button class="btn btn-primary" (click)="goToCreate()">Crear {{ endpoint | titlecase }}</button>
+        </div>
+
+        <!-- Paginación -->
+        <app-pagination
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageChange)="changePage($event)"
+        ></app-pagination>
+    </div>
+
+    <!-- Tabla -->
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th *ngFor="let column of columns">{{ column.label }}</th>
+                <th *ngIf="isAdminUser">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of filteredItems">
+                <td *ngFor="let column of columns">{{ item[column.key] }}</td>
+                <td *ngIf="isAdminUser">
+                    <button class="btn btn-danger" (click)="deleteItem(item.id)">Eliminar</button>
+                    <button class="btn btn-warning" (click)="editItem(item.id)">Editar</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
