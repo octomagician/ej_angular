@@ -11,11 +11,13 @@
                 class="form-control"
                 [(ngModel)]="searchId"
                 placeholder="Buscar por ID"
+                (input)="searchCama()"
+                min="0"
             />
         </div>
 
         <!-- Botón para crear cama (solo admin) -->
-        <div *ngIf="isAdmin" class="actions">
+        <div *ngIf="isAdminUser" class="actions">
             <button class="btn btn-primary" routerLink="/camas/crear">Crear Cama</button>
         </div>
 
@@ -34,7 +36,7 @@
                 <th>ID</th>
                 <th>Número de Cama</th>
                 <th>Área ID</th>
-                <th *ngIf="isAdmin">Acciones</th>
+                <th *ngIf="isAdminUser">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -42,7 +44,7 @@
                 <td>{{ cama.id }}</td>
                 <td>{{ cama.numero_cama }}</td>
                 <td>{{ cama.area_id }}</td>
-                <td *ngIf="isAdmin">
+                <td *ngIf="isAdminUser">
                     <button *ngIf="!cama.deleted_at" class="btn btn-danger" (click)="deleteCama(cama.id!)">
                         Eliminar
                     </button>

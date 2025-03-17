@@ -18,14 +18,10 @@ import { ExitGuard } from './guard/exit.guard';
 // ??????????
 import { PerfilComponent } from './layout/perfil/perfil.component';
 import { IngresosComponent } from './layout/crud_layouts/ingresos/ingresos.component';
-import { EstudiosComponent } from './layout/crud_layouts/estudios/estudios.component';
-import { GestionComponent } from './layout/crud_layouts/gestion/gestion.component';
 // Hijos
-import { HistoriaClinicaComponent } from './layout/miniform/historia-clinica/historia-clinica.component';
+
 import { ModificarExistenteComponent } from './layout/miniform/modificar-existente/modificar-existente.component';
 import { NuevoIngresoComponent } from './layout/miniform/nuevo-ingreso/nuevo-ingreso.component';
-import { PrimeraVezComponent } from './layout/miniform/primera-vez/primera-vez.component';
-import { RegistrarNuevaInformacionComponent } from './layout/miniform/registrar-nueva-informacion/registrar-nueva-informacion.component';
 
 export const routes: Routes = [
   {
@@ -63,10 +59,19 @@ export const routes: Routes = [
     canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
   },
   // --------------------------------------------------------------------
-
   {
     path: 'camas',
-    component: CamaListComponent
+    component: CamaListComponent,
+    title: 'Camas',
+    canActivate: [AuthGuard]
+    //este que sigue ponerselo al componente de cama
+    //canActivate: [AdminGuard], // Solo accesible si eres administrador
+  },
+  {
+    path: 'camas/editar',
+    component: CamaListComponent,
+    title: 'Camas Editar',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
   },
   // -------------------------------------------------------------------- ???????????????????
   {
@@ -83,23 +88,8 @@ export const routes: Routes = [
     canActivate: [AuthGuard], // Solo accesible si estás conectado
     children: [
       { path: 'nuevo-ingreso', component: NuevoIngresoComponent, canDeactivate: [ExitGuard] },
-      { path: 'primera-vez', component: PrimeraVezComponent, canDeactivate: [ExitGuard] },
       { path: 'modificar-existente', component: ModificarExistenteComponent, canDeactivate: [ExitGuard] },
-      { path: 'registrar-nueva-informacion', component: RegistrarNuevaInformacionComponent, canDeactivate: [ExitGuard] },
-      { path: 'historia-clinica', component: HistoriaClinicaComponent, canDeactivate: [ExitGuard] },
     ],
-  },
-  {
-    path: 'estudios',
-    component: EstudiosComponent,
-    title: 'Estudios',
-    canActivate: [AuthGuard], // Solo accesible si estás conectado
-  },
-  {
-    path: 'gestion',
-    component: GestionComponent,
-    title: 'Gestión',
-    canActivate: [AdminGuard], // Solo accesible si eres administrador
   },
   // --------------------------------------------------------------------
   {

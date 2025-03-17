@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CamaService } from '../../../service/cama/cama.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { Cama } from '../../../interface/cama';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,16 +16,19 @@ export class CamaListComponent implements OnInit {
   camas: Cama[] = [];
   filteredCamas: Cama[] = [];
   searchId: number | null = null;
-  isAdmin = true; // Cambia esto según la lógica de autenticación!!!!!!!!!!!!!!!!!!!!!!
+  isAdminUser: boolean = false;
 
   // Propiedades para la paginación
   currentPage: number = 1;
   itemsPerPage: number = 10; // Número de elementos por página
   totalPages: number = 0;
 
-  constructor(private camaService: CamaService) {}
+  constructor(private camaService: CamaService, private authService: AuthService) {}
 
   ngOnInit(): void {
+    // Verificar si el usuario es administrador al inicializar el componente
+    this.isAdminUser = this.authService.isAdmin();
+    console.log('Is Admin:', this.isAdminUser);
     this.loadCamas();
   }
 
@@ -33,6 +37,8 @@ export class CamaListComponent implements OnInit {
     this.camaService.getCamas().subscribe((data) => {
       this.camas = data;
       this.filteredCamas = data;
+      console.log('Camas loaded:', this.camas);
+      console.log('Filtered Camas:', this.filteredCamas);
       this.calculateTotalPages(); // Calcular el total de páginas
       this.updateDisplayedCamas(); // Actualizar las camas mostradas
     });

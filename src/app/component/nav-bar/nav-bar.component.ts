@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-nav-bar',
   imports: [RouterModule, CommonModule],
   templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.css'
+  styleUrl: './nav-bar.component.css' 
 })
 export class NavBarComponent implements OnInit{
   username: string | null = null; // Variable para almacenar el nombre del usuario
@@ -23,7 +23,13 @@ export class NavBarComponent implements OnInit{
 
   // Método para cerrar sesión
   logout(): void {
-    this.authService.salir(); // Llama al método logout del AuthService
-    this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio
+    this.authService.salir().subscribe(
+      () => {
+        this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio
+      },
+      error => {
+        console.error('Error al cerrar sesión', error);
+      }
+    );
   }
 }

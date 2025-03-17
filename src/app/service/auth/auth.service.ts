@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../interface/user';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
 
@@ -70,24 +70,22 @@ export class AuthService {
 
     // --------------------------------------------------------------------
 
-
-
-
-  // Método para cerrar sesión, creo que estoy usando este ahorita
-  /*logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('usuario'); 
-    this.userNameSubject.next(null);
-  }*/
-
-  // logout de usuario?????? otro???????????? pero este debe ser el correcto porque usa la dirección de la api
+  // logout de usuario?
   salir(): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log('Token antes de eliminar:', token);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     localStorage.removeItem('token');
     localStorage.removeItem('role');
-    localStorage.removeItem('usuario'); 
+    localStorage.removeItem('usuario');
+    console.log('Token después de eliminar:', localStorage.getItem('token'));
     this.userNameSubject.next(null);
-    return this.http.post(`${this.baseUrl}salir`, {});
+    return this.http.delete(`${this.baseUrl}salir`, { headers }).pipe(
+      catchError(error => {
+        console.error('Error al cerrar sesión', error);
+        return throwError(error);
+      })
+    );
   }
 
 // --------------------------------------- para los guards

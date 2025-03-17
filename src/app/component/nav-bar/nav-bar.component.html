@@ -6,60 +6,64 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       
-      <!--only appears if you're offline-->
+      <!--offline-->
       <li class="nav-item active" *ngIf="!authService.isLoggedIn()">
         <a routerLink="/entrar" class="nav-link">Entrar</a>
       </li>
 
-      <!--only appears if you're online-->
+      <!--online-->
       
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="perfil" class="nav-link">Perfil</a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="pacientes" class="nav-link">Pacientes</a>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="ingresos" class="nav-link">Ingresos</a>
       </li>
-      <!--
-      diagnósticos crud
-      historial crud
-      -->
 
-      <li class="nav-item" *ngIf="authService.isAdmin()">
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="camas" class="nav-link">Camas</a>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="diagnosticos" class="nav-link">Diagnósticos</a>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="areas" class="nav-link">Áreas</a>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a routerLink="historial" class="nav-link">Historial</a>
+      </li>
+
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a routerLink="estudios" class="nav-link">Estudios</a>
       </li>
-      <!--
-      estudios crud
-      -->
+    </ul>
 
-      <!--only appears if you're administrator-->
-      <li class="nav-item" *ngIf="authService.isAdmin()">
-        <a routerLink="gestion" class="nav-link">Gestión</a>
+    <ul class="navbar-nav ms-auto" *ngIf="authService.isLoggedIn()">
+      
+      <li class="nav-item">
+        <span class="nav-link">Bienvenido, {{ username }}</span>
       </li>
 
-      <!--
-      areas crud
-      camas crud
-      tipos de personal 
-      personal&pacientes read ALL
-      personal&pacientes delete
-      personal update their tipos de personal
-      tipo de estudio crud
-      -->
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a class="nav-link"></a>
+      </li>
+      <li class="nav-item" *ngIf="authService.isLoggedIn()">
+        <a class="nav-link"></a>
+      </li>
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a class="nav-link"></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a class="nav-link" (click)="logout()">Salir</a>
-      </li>
-
-    </ul>
-
-    <!-- Mostrar el nombre del usuario alineado a la derecha -->
-    <ul class="navbar-nav ms-auto" *ngIf="authService.isLoggedIn()">
-      <li class="nav-item">
-        <span class="nav-link">Bienvenido, {{ username }}</span>
       </li>
     </ul>
   </div>

@@ -24,21 +24,29 @@ export class CamaService {
 
   // Obtener una cama por ID
   getCamaById(id: number): Observable<Cama> {
-    return this.http.get<Cama>(`${this.apiUrl}/${id}`);
-  }
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Cama>(`${this.apiUrl}/${id}`, { headers });
+}
 
   // Crear una cama
   createCama(cama: Cama): Observable<Cama> {
-    return this.http.post<Cama>(this.apiUrl, cama);
-  }
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<Cama>(this.apiUrl, cama, { headers });
+}
 
   // Actualizar una cama
   updateCama(id: number, cama: Cama): Observable<Cama> {
-    return this.http.put<Cama>(`${this.apiUrl}/${id}`, cama);
-  }
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<Cama>(`${this.apiUrl}/${id}`, cama, { headers });
+}
 
   // Eliminar una cama (soft delete)
   deleteCama(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
+}
 }
