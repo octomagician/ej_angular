@@ -9,6 +9,7 @@ import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reen
 // CRUD
 import { CamaListComponent } from './layout/crud_layouts/cama-list/cama-list.component';
 import { CamaFormComponent } from './layout/crud_layouts/cama-form/cama-form.component';
+import { GenericFormComponent } from './component/generic-form/generic-form.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -70,12 +71,14 @@ export const routes: Routes = [
     component: CamaFormComponent,
     title: 'Camas Crear',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
   },
   {
     path: 'camas/editar/:id',
     component: CamaFormComponent,
     title: 'Camas Editar',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
   },
   // -------------------------------------------------------------------- ???????????????????
   {

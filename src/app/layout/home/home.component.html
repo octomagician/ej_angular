@@ -17,16 +17,15 @@
 
   <!-- Lista de secciones con paginación -->
   <div class="content">
+        <!-- Componente de paginación -->
+        <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (pageChange)="onPageChange($event)">
+      </app-pagination>
     <h1>{{ currentFloor }}</h1>
     <ul>
       <li *ngFor="let section of visibleSections">{{ section }}</li>
     </ul>
-
-    <!-- Componente de paginación -->
-    <app-pagination
-      [currentPage]="currentPage"
-      [totalPages]="totalPages"
-      (pageChange)="onPageChange($event)">
-    </app-pagination>
   </div>
 </div>

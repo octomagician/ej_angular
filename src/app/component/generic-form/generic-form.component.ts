@@ -5,6 +5,7 @@ import { GenericService } from '../../service/generic/generic-service.service';
 import { BaseItem } from '../../interface/base-item';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Check } from '../../interface/check';
 
 @Component({
   selector: 'app-generic-form',
@@ -12,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   templateUrl: './generic-form.component.html',
   styleUrls: ['./generic-form.component.css'],
 })
-export class GenericFormComponent<T extends BaseItem> implements OnInit {
+export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
   @Input() endpoint: string = ''; // Nombre del endpoint (ej: 'camas', 'diagnosticos')
   @Input() fields: { key: string; label: string; type: string }[] = []; // Campos del formulario
   @Input() formTitle: string = ''; // Título del formulario (ej: 'Crear Cama', 'Editar Diagnóstico')
@@ -31,6 +32,7 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit {
     this.genericForm = this.fb.group({});
   }
 
+  
   ngOnInit(): void {
     // Inicializar el formulario con los campos dinámicos
     this.fields.forEach((field) => {
@@ -93,4 +95,21 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit {
       console.log('Formulario no válido. Revise los campos.');
     }
   }
+
+  // Método del Guard Exit ------------------------------------------------------
+  datosNoGuardados: boolean = false;
+
+  check(): boolean {
+    if (this.genericForm.dirty) {
+      const confirmacion = confirm('¿Seguro que quieres salir sin guardar los cambios?');
+      return confirmacion;
+    }
+    return true;
+  }
+
+  // Se llama cada vez que el usuario interactúa con el formulario
+onInputChange() {
+  this.datosNoGuardados = this.genericForm.dirty;
+  console.log('Formulario modificado:', this.datosNoGuardados);
+}
 }
