@@ -15,6 +15,8 @@ import { AreaFormComponent } from './layout/crud_layouts/area-form/area-form.com
 import { AreaListComponent } from './layout/crud_layouts/area-list/area-list.component';
 import { HistorialFormComponent } from './layout/crud_layouts/historial-form/historial-form.component';
 import { HistorialListComponent } from './layout/crud_layouts/historial-list/historial-list.component';
+import { EstudioFormComponent } from './layout/crud_layouts/estudio-form/estudio-form.component';
+import { EstudioListComponent } from './layout/crud_layouts/estudio-list/estudio-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -145,6 +147,27 @@ export const routes: Routes = [
     path: 'historial/editar/:id',
     component: HistorialFormComponent,
     title: 'Historial Editar',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  // --------------------------------------------------------------------
+  {
+    path: 'estudios',
+    component: EstudioListComponent,
+    title: 'Estudios',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'estudios/crear',
+    component: EstudioFormComponent,
+    title: 'Estudios Crear',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'estudios/editar/:id',
+    component: EstudioFormComponent,
+    title: 'Estudios Editar',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
     canDeactivate: [ExitGuard],
   },
