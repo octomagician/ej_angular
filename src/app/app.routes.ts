@@ -9,7 +9,8 @@ import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reen
 // CRUD
 import { CamaListComponent } from './layout/crud_layouts/cama-list/cama-list.component';
 import { CamaFormComponent } from './layout/crud_layouts/cama-form/cama-form.component';
-import { GenericFormComponent } from './component/generic-form/generic-form.component';
+import { DiagnosticoFormComponent } from './layout/crud_layouts/diagnostico-form/diagnostico-form.component';
+import { DiagnosticoListComponent } from './layout/crud_layouts/diagnostico-list/diagnostico-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -77,6 +78,27 @@ export const routes: Routes = [
     path: 'camas/editar/:id',
     component: CamaFormComponent,
     title: 'Camas Editar',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  // --------------------------------------------------------------------
+  {
+    path: 'diagnosticos',
+    component: DiagnosticoListComponent,
+    title: 'Diagnósticos',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'diagnosticos/crear',
+    component: DiagnosticoFormComponent,
+    title: 'Diagnósticos Crear',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'diagnosticos/editar/:id',
+    component: DiagnosticoFormComponent,
+    title: 'Diagnósticos Editar',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
     canDeactivate: [ExitGuard],
   },
