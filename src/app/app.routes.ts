@@ -7,10 +7,14 @@ import { RegistrarseComponent } from './layout/registrarse/registrarse.component
 import { VerificacionComponent } from './layout/verificacion/verificacion.component';
 import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reenvio-verificacion.component';
 // CRUD
-import { CamaListComponent } from './layout/crud_layouts/cama-list/cama-list.component';
 import { CamaFormComponent } from './layout/crud_layouts/cama-form/cama-form.component';
+import { CamaListComponent } from './layout/crud_layouts/cama-list/cama-list.component';
 import { DiagnosticoFormComponent } from './layout/crud_layouts/diagnostico-form/diagnostico-form.component';
 import { DiagnosticoListComponent } from './layout/crud_layouts/diagnostico-list/diagnostico-list.component';
+import { AreaFormComponent } from './layout/crud_layouts/area-form/area-form.component';
+import { AreaListComponent } from './layout/crud_layouts/area-list/area-list.component';
+import { HistorialFormComponent } from './layout/crud_layouts/historial-form/historial-form.component';
+import { HistorialListComponent } from './layout/crud_layouts/historial-list/historial-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -99,6 +103,48 @@ export const routes: Routes = [
     path: 'diagnosticos/editar/:id',
     component: DiagnosticoFormComponent,
     title: 'Diagnósticos Editar',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  // --------------------------------------------------------------------
+  {
+    path: 'areas',
+    component: AreaListComponent,
+    title: 'Áreas',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'areas/crear',
+    component: AreaFormComponent,
+    title: 'Áreas Crear',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'areas/editar/:id',
+    component: AreaFormComponent,
+    title: 'Áreas Editar',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  // --------------------------------------------------------------------
+  {
+    path: 'historial',
+    component: HistorialListComponent,
+    title: 'Historial',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'historial/crear',
+    component: HistorialFormComponent,
+    title: 'Historial Crear',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'historial/editar/:id',
+    component: HistorialFormComponent,
+    title: 'Historial Editar',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
     canDeactivate: [ExitGuard],
   },

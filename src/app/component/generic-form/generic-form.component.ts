@@ -32,13 +32,17 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
     this.genericForm = this.fb.group({});
   }
 
-  
   ngOnInit(): void {
     // Inicializar el formulario con los campos dinámicos
     this.fields.forEach((field) => {
-      this.genericForm.addControl(field.key, this.fb.control('', Validators.required));
+      if (field.key === 'observaciones') {
+        // Si el campo es 'observaciones', no aplicar Validators.required
+        this.genericForm.addControl(field.key, this.fb.control(''));
+      } else {
+        this.genericForm.addControl(field.key, this.fb.control('', Validators.required));
+      }
     });
-
+  
     // Verificar si estamos en modo edición
     this.itemId = this.route.snapshot.params['id'];
     if (this.itemId) {
@@ -47,8 +51,18 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
     }
   }
 
+  private endpointExceptions: { [key: string]: string } = {
+    historial: 'historial', // La clave en la respuesta JSON es "historial"
+    /*diagnosticos: 'diagnostico'*/
+  };
+
   private getSingularEndpoint(endpoint: string): string {
-    // Elimina la última letra (asume que el plural termina con "s")
+    // Verifica si el endpoint tiene una excepción definida, sino, le quita la S
+    if (this.endpointExceptions[endpoint]) {
+      return this.endpointExceptions[endpoint];
+    }
+  
+    // Si no hay excepción, elimina la última letra (asume que el plural termina con "s")
     return endpoint.slice(0, -1);
   }
 
