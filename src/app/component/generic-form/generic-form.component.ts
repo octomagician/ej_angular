@@ -47,30 +47,41 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
     }
   }
 
-  // Cargar un item por ID
-  loadItem(id: number): void {
-    this.genericService.getById(this.endpoint, id).subscribe(
-      (response: any) => {
-        console.log('Datos cargados:', response); // Verifica los datos cargados
-        const itemData = response.cama; // Extrae los datos de la propiedad "cama"
-        this.genericForm.patchValue(itemData); // Pre-llenar el formulario con los datos extraídos
-      },
-      (error) => {
-        console.error('Error al cargar el item:', error);
-      }
-    );
+  private getSingularEndpoint(endpoint: string): string {
+    // Elimina la última letra (asume que el plural termina con "s")
+    return endpoint.slice(0, -1);
   }
+
+  // Cargar un item por ID
+loadItem(id: number): void {
+  this.genericService.getById(this.endpoint, id).subscribe(
+    (response: any) => {
+      console.log('Datos cargados:', response); // Verifica los datos cargados
+
+      // Obtén el nombre de la propiedad en singular
+      const singularEndpoint = this.getSingularEndpoint(this.endpoint);
+
+      // Extrae los datos de la propiedad en singular
+      const itemData = response[singularEndpoint] || response;
+      this.genericForm.patchValue(itemData); // Pre-llenar el formulario con los datos extraídos
+    },
+    (error) => {
+      console.error('Error al cargar el item:', error);
+    }
+  );
+}
 
   // Enviar el formulario
   onSubmit(): void {
     if (this.genericForm.valid) {
       const formData = this.genericForm.value;
-
+  
       if (this.isEditMode && this.itemId) {
         // Modo edición
         this.genericService.update(this.endpoint, this.itemId, formData).subscribe(
           () => {
             console.log('Item actualizado correctamente.');
+            this.genericForm.markAsPristine(); // Marcar el formulario como no modificado
             this.router.navigate([`/${this.endpoint}`]);
           },
           (error) => {
@@ -83,6 +94,7 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
         this.genericService.create(this.endpoint, formData).subscribe(
           () => {
             console.log('Item creado correctamente.');
+            this.genericForm.markAsPristine(); // Marcar el formulario como no modificado
             this.router.navigate([`/${this.endpoint}`]);
           },
           (error) => {
