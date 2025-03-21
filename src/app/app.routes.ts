@@ -21,6 +21,7 @@ import { TiposPersonalFormComponent } from './layout/crud_layouts/tipos-personal
 import { TiposPersonalListComponent } from './layout/crud_layouts/tipos-personal-list/tipos-personal-list.component';
 import { TiposDeEstudioFormComponent } from './layout/crud_layouts/tipos-de-estudio-form/tipos-de-estudio-form.component';
 import { TiposDeEstudioListComponent } from './layout/crud_layouts/tipos-de-estudio-list/tipos-de-estudio-list.component';
+import { LogListComponent } from './layout/crud_layouts/log-list/log-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -216,6 +217,13 @@ export const routes: Routes = [
     title: 'Tipos de Estudio Editar',
     canActivate: [AdminGuard], // Solo accesible si eres administrador
     canDeactivate: [ExitGuard],
+  },
+  // --------------------------------------------------------------------
+  {
+    path: 'logs',
+    component: LogListComponent,
+    title: 'Logs',
+    canActivate: [AuthGuard]
   },
   // -------------------------------------------------------------------- ???????????????????
   {

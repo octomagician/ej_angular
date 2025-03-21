@@ -54,6 +54,10 @@
     <li class="nav-item" *ngIf="authService.isLoggedIn()">
       <a routerLink="tipos-de-estudio" class="nav-link">Tipos de estudios</a>
     </li>
+
+    <li class="nav-item" *ngIf="authService.isLoggedIn()">
+      <a routerLink="logs" class="nav-link">Logs</a>
+    </li>
   </ul>
 
     <ul class="navbar-nav ms-auto" *ngIf="authService.isLoggedIn()">
