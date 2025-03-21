@@ -37,18 +37,6 @@ export class AuthService {
 
     // -------------------------------------------------------------------- Sesión activa
 
-    // NO SÉ DÓNDE ESTOY USANDO ESTE??????????? creo que lo borraré si no lo descubro el domingo en la noche
-    // Método para iniciar sesión
-    /*
-    login(credentials: { email: string; password: string }): Observable<any> {
-      return this.http.post(`${this.baseUrl}entrar`, credentials).pipe(
-        catchError((error) => {
-          console.error('Error en el login:', error);
-          return of(null);
-        })
-      );
-    }*/
-
     // Login de usuario que está actualmente en entrar componente
     entrar(user: User): Observable<any> {
       return this.http.post(`${this.baseUrl}entrar`, user);
@@ -100,10 +88,6 @@ export class AuthService {
     const token = localStorage.getItem('token');
     return !!token; // Devuelve true si el token existe
   }
-
-
-
-
 
 // -------------------------------------------------------------------- para el perfil
 
