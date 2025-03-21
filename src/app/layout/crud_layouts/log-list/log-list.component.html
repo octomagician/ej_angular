@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let log of logs">
+        <tr *ngFor="let log of filteredLogs">
           <td>{{ log._id }}</td>
           <td>{{ log.action }}</td>
           <td>{{ log.user_id }}</td>
@@ -34,4 +34,11 @@
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>
+  
+    <!-- Componente de paginación -->
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChange)="changePage($event)"
+    ></app-pagination>
   </div>
