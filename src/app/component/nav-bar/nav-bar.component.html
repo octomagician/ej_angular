@@ -55,7 +55,7 @@
       <a routerLink="tipos-de-estudio" class="nav-link">Tipos de estudios</a>
     </li>
 
-    <li class="nav-item" *ngIf="authService.isLoggedIn()">
+    <li class="nav-item" *ngIf="authService.isAdmin()">
       <a routerLink="logs" class="nav-link">Logs</a>
     </li>
   </ul>

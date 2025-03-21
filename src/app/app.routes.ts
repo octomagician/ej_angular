@@ -223,7 +223,7 @@ export const routes: Routes = [
     path: 'logs',
     component: LogListComponent,
     title: 'Logs',
-    canActivate: [AuthGuard]
+    canActivate: [AdminGuard]
   },
   // -------------------------------------------------------------------- ???????????????????
   {
