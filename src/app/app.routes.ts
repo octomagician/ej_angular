@@ -17,8 +17,6 @@ import { HistorialFormComponent } from './layout/crud_layouts/historial-form/his
 import { HistorialListComponent } from './layout/crud_layouts/historial-list/historial-list.component';
 import { EstudioFormComponent } from './layout/crud_layouts/estudio-form/estudio-form.component';
 import { EstudioListComponent } from './layout/crud_layouts/estudio-list/estudio-list.component';
-import { PacienteFormComponent } from './layout/crud_layouts/paciente-form/paciente-form.component';
-import { PacienteListComponent } from './layout/crud_layouts/paciente-list/paciente-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -174,26 +172,7 @@ export const routes: Routes = [
     canDeactivate: [ExitGuard],
   },
   // --------------------------------------------------------------------
-  {
-    path: 'pacientes',
-    component: PacienteListComponent,
-    title: 'Pacientes',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'pacientes/crear',
-    component: PacienteFormComponent,
-    title: 'Pacientes Crear',
-    canActivate: [AdminGuard], // Solo accesible si eres administrador
-    canDeactivate: [ExitGuard],
-  },
-  {
-    path: 'pacientes/editar/:id',
-    component: PacienteFormComponent,
-    title: 'Pacientes Editar',
-    canActivate: [AdminGuard], // Solo accesible si eres administrador
-    canDeactivate: [ExitGuard],
-  },
+
   // -------------------------------------------------------------------- ???????????????????
   {
     path: 'perfil',
