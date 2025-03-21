@@ -15,14 +15,17 @@ export class PaginationComponent {
 
   // Getter para generar un arreglo de números de páginas
   get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    return this.totalPages > 1 ? Array.from({ length: this.totalPages }, (_, i) => i + 1) : [1];
   }
 
   // Método para cambiar de página
   changePage(page: number): void {
+    if (this.totalPages < 2) return; // Evita cambios innecesarios en una sola página
+  
     if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
       this.currentPage = page;
       this.pageChange.emit(page); // Emitir el cambio de página
     }
   }
+  
 }

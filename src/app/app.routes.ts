@@ -17,6 +17,10 @@ import { HistorialFormComponent } from './layout/crud_layouts/historial-form/his
 import { HistorialListComponent } from './layout/crud_layouts/historial-list/historial-list.component';
 import { EstudioFormComponent } from './layout/crud_layouts/estudio-form/estudio-form.component';
 import { EstudioListComponent } from './layout/crud_layouts/estudio-list/estudio-list.component';
+import { TiposPersonalFormComponent } from './layout/crud_layouts/tipos-personal-form/tipos-personal-form.component';
+import { TiposPersonalListComponent } from './layout/crud_layouts/tipos-personal-list/tipos-personal-list.component';
+import { TiposDeEstudioFormComponent } from './layout/crud_layouts/tipos-de-estudio-form/tipos-de-estudio-form.component';
+import { TiposDeEstudioListComponent } from './layout/crud_layouts/tipos-de-estudio-list/tipos-de-estudio-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
 import { NoAuthGuard } from './guard/no-auth.guard';
@@ -172,7 +176,47 @@ export const routes: Routes = [
     canDeactivate: [ExitGuard],
   },
   // --------------------------------------------------------------------
-
+  {
+    path: 'tipos-personal',
+    component: TiposPersonalListComponent,
+    title: 'Tipos de Personal',
+    canActivate: [AuthGuard]
+},
+{
+    path: 'tipos-personal/crear',
+    component: TiposPersonalFormComponent,
+    title: 'Tipos de Personal Crear',
+    canActivate: [AdminGuard],
+    canDeactivate: [ExitGuard],
+},
+{
+    path: 'tipos-personal/editar/:id',
+    component: TiposPersonalFormComponent,
+    title: 'Tipos de Personal Editar',
+    canActivate: [AdminGuard],
+    canDeactivate: [ExitGuard],
+},
+  // ----------------------------------------------------------------------
+  {
+    path: 'tipos-de-estudio',
+    component: TiposDeEstudioListComponent,
+    title: 'Tipos de Estudio',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'tipos-de-estudio/crear',
+    component: TiposDeEstudioFormComponent,
+    title: 'Tipos de Estudio Crear',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'tipos-de-estudio/editar/:id',
+    component: TiposDeEstudioFormComponent,
+    title: 'Tipos de Estudio Editar',
+    canActivate: [AdminGuard], // Solo accesible si eres administrador
+    canDeactivate: [ExitGuard],
+  },
   // -------------------------------------------------------------------- ???????????????????
   {
     path: 'perfil',
