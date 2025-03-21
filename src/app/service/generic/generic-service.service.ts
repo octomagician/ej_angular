@@ -13,6 +13,7 @@ export class GenericService<T> {
   // Obtener todos los registros
   getAll(endpoint: string): Observable<T[]> {
     const token = localStorage.getItem('token');
+    //console.log(localStorage.getItem('token'))
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<{ [key: string]: T[] }>(`${this.apiUrl}/${endpoint}`, { headers }).pipe(
       map(response => response[endpoint]) // Extrae el array de la respuesta

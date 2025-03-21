@@ -35,11 +35,14 @@ export class GenericListComponent<T extends BaseItem> implements OnInit {
   // Cargar todos los registros
   loadItems(): void {
     this.genericService.getAll(this.endpoint).subscribe((data) => {
+      console.log(this.endpoint)
       this.items = data;
       this.filteredItems = data;
       this.calculateTotalPages();
       this.updateDisplayedItems();
     });
+    console.log(this.items);
+    console.log(this.filteredItems);
   }
 
   // Buscar por ID
@@ -79,6 +82,9 @@ export class GenericListComponent<T extends BaseItem> implements OnInit {
   // Métodos de paginación
   calculateTotalPages(): void {
     this.totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
+    console.log(this.totalPages);
+    console.log(this.filteredItems.length);
+    console.log(this.itemsPerPage);
   }
 
   updateDisplayedItems(): void {

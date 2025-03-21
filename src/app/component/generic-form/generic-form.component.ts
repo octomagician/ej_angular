@@ -53,6 +53,8 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
 
   private endpointExceptions: { [key: string]: string } = {
     historial: 'historial', // La clave en la respuesta JSON es "historial"
+    'tipos-de-estudio': 'tipos-de-estudio',
+    'tipos-personal': 'tipos-personal',
     /*diagnosticos: 'diagnostico'*/
   };
 
