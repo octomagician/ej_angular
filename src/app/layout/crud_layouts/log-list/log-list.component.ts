@@ -42,8 +42,11 @@ export class LogListComponent implements OnInit {
 
     this.logService.getLogs().subscribe(
       (data: any[]) => {
-        this.logs = data;
-        this.filteredLogs = data;
+        // orden b a, más reciente primero
+        this.logs = data.sort((a, b) => {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        });
+        this.filteredLogs = this.logs; // Asignar los logs ordenados
         this.calculateTotalPages();
         this.updateDisplayedLogs();
         this.isLoading = false;

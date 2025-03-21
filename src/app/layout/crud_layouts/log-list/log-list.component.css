@@ -1,0 +1,5 @@
+.table td {
+    max-width: 200px;
+    word-wrap: break-word; /* Permite que el texto largo se divida en varias líneas */
+    white-space: normal;
+  }
