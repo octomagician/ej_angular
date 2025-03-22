@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LogService } from '../../../service/log/log.service';
 import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '../../../component/pagination/pagination.component';
+import { SseService } from '../../../service/event-source/sse.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-log-list',
@@ -10,12 +12,14 @@ import { PaginationComponent } from '../../../component/pagination/pagination.co
   templateUrl: './log-list.component.html',
   styleUrls: ['./log-list.component.css'],
 })
-export class LogListComponent implements OnInit {
+export class LogListComponent implements OnInit, OnDestroy {
   logs: any[] = []; // Lista completa de logs
   filteredLogs: any[] = []; // Lista de logs filtrados/paginados
   isLoading: boolean = true; // Estado de carga
   errorMessage: string | null = null; // Mensaje de error
   isAdminUser: boolean = false; // Verificación de rol
+  ssemensaje: any[] = []; // Mensajes del servidor
+  private sseSubscription: Subscription | null = null;
 
   // Paginación
   currentPage: number = 1;
@@ -24,7 +28,8 @@ export class LogListComponent implements OnInit {
 
   constructor(
     private logService: LogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private sseService: SseService
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +38,23 @@ export class LogListComponent implements OnInit {
 
     // Cargar los logs
     this.loadLogs();
+
+    this.sseSubscription = this.sseService
+      .getServerSentEvent('http://localhost:8000/api/sse')
+      .subscribe({
+        next: (event: MessageEvent) => {
+          this.ssemensaje.push(JSON.parse(event.data));
+        },
+        error: (error) => {
+          console.error('Error en SSE:', error);
+        },
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.sseSubscription) {
+      this.sseSubscription.unsubscribe();
+    }
   }
 
   // Cargar los logs desde el backend
