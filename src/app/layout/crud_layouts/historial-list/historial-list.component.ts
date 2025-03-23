@@ -28,6 +28,8 @@ export class HistorialListComponent implements OnInit {
 
   ngOnInit(): void {
     // Verificar si el usuario es administrador
-    this.isAdminUser = this.authService.isAdmin();
-  }
+    this.authService.isAdmin().subscribe((isAdmin) => {
+      this.isAdminUser = isAdmin; // Actualizar la variable con el valor emitido por el Observable
+    });
+}
 }

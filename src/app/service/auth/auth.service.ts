@@ -1,148 +1,104 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../interface/user';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { of, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
   private userNameSubject = new BehaviorSubject<string | null>(null); // BehaviorSubject para el nombre del usuario
   public userName$ = this.userNameSubject.asObservable(); // Observable para suscribirse al nombre
   private baseUrl = 'http://127.0.0.1:8000/api/';
 
-  constructor(private http: HttpClient) { //instancia para inyectarse en el constructor
-    this.userNameSubject.next(this.getUserName());} 
-
-    // -------------------------------------------------------------------- Registro de usuario
-
-    // Registro de usuario
-    registerUser(user: User): Observable<any> {
-      return this.http.post(`${this.baseUrl}registrar`, user);
-    }
-
-    //Código de usuario
-    verificarCodigo(email: string, codigo: string): Observable<any> {
-      const data = { email, codigo };
-      return this.http.post(`${this.baseUrl}verificar-codigo`, data); // URL completa
-    }
-
-    //Volver a mandar correo para activar
-    resendActivationEmail(user: User): Observable<any> {
-      return this.http.post(`${this.baseUrl}reenviar-codigo`, user);
-    }
-
-    // -------------------------------------------------------------------- Sesión activa
-
-    // Login de usuario que está actualmente en entrar componente
-    entrar(user: User): Observable<any> {
-      return this.http.post(`${this.baseUrl}entrar`, user);
-    }
-
-    // Método para guardar el token, el rol y el nombre del usuario después del login
-    setUserData(token: string, role: string, username: string): void {
-    localStorage.setItem('token', token);
-    localStorage.setItem('role', role);
-    localStorage.setItem('usuario', username);
-    this.userNameSubject.next(username); // Actualizar el BehaviorSubject
+  constructor(private http: HttpClient) {
+    this.userNameSubject.next(this.getUserName()); // Inicializar con el nombre del usuario
   }
 
-    // Método para obtener el nombre del usuario desde el localStorage
-    // Se usa en el NavBar y se actualiza en automático
-    getUserName(): string | null {
-      return localStorage.getItem('usuario');
-    }
+  // -------------------------------------------------------------------- Registro de usuario
 
-    // --------------------------------------------------------------------
+  registerUser(user: User): Observable<any> {
+    return this.http.post(`${this.baseUrl}registrar`, user, { withCredentials: true });
+  }
 
-  // logout de usuario?
-  salir(): Observable<any> {
-    const token = localStorage.getItem('token');
-    console.log('Token antes de eliminar:', token);
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('usuario');
-    console.log('Token después de eliminar:', localStorage.getItem('token'));
-    this.userNameSubject.next(null);
-    return this.http.delete(`${this.baseUrl}salir`, { headers }).pipe(
-      catchError(error => {
-        console.error('Error al cerrar sesión', error);
+  verificarCodigo(email: string, codigo: string): Observable<any> {
+    const data = { email, codigo };
+    return this.http.post(`${this.baseUrl}verificar-codigo`, data, { withCredentials: true });
+  }
+
+  resendActivationEmail(user: User): Observable<any> {
+    return this.http.post(`${this.baseUrl}reenviar-codigo`, user, { withCredentials: true });
+  }
+
+  // -------------------------------------------------------------------- Sesión activa
+
+  entrar(user: User): Observable<any> {
+    return this.http.post(`${this.baseUrl}entrar`, user, { withCredentials: true }).pipe(
+      catchError((error) => {
+        console.error('Error en el login:', error);
         return throwError(error);
       })
     );
   }
 
-// --------------------------------------- para los guards
-
-  // Verificar si el usuario es administrador
-  isAdmin(): boolean {
-    const role = localStorage.getItem('role');
-    return role === 'Administrador';
+  // Método para guardar el nombre del usuario después del login
+  setUserName(username: string): void {
+    this.userNameSubject.next(username); // Actualizar el BehaviorSubject
   }
 
-  isLoggedIn(): boolean {
-    const token = localStorage.getItem('token');
-    return !!token; // Devuelve true si el token existe
+  // Método para obtener el nombre del usuario desde el backend
+  getUserName(): string | null {
+    return this.userNameSubject.value; // Obtener el valor actual del BehaviorSubject
   }
 
-// -------------------------------------------------------------------- para el perfil
+  // -------------------------------------------------------------------- Logout
 
-  // Obtener datos del usuario autenticado
+  salir(): Observable<any> {
+    return this.http.delete(`${this.baseUrl}salir`, { withCredentials: true }).pipe(
+      catchError((error) => {
+        console.error('Error al cerrar sesión:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  // --------------------------------------- Para los guards
+
+  isAdmin(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}es-admin`, { withCredentials: true });
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}esta-autenticado`, { withCredentials: true });
+  }
+
+  // -------------------------------------------------------------------- Para el perfil
+
   perfilData(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.baseUrl}v2/perfil`, { headers });
+    return this.http.get(`${this.baseUrl}v2/perfil`, { withCredentials: true });
   }
 
-  // Actualizar datos de usuario
   updateUser(user: User): Observable<any> {
-    const token = localStorage.getItem('token'); // Obtener el token del localStorage
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Crear headers con el token
-    return this.http.put(`${this.baseUrl}v2/perfil`, user, { headers }); // Enviar la solicitud con los headers
+    return this.http.put(`${this.baseUrl}v2/perfil`, user, { withCredentials: true });
   }
 
-  //Cambiar contraseña
   resetPassword(email: string): Observable<any> {
     const url = `${this.baseUrl}v2/reset-password`;
-    return this.http.post(url, { email });
+    return this.http.post(url, { email }, { withCredentials: true });
   }
 
-  //---------------------------- PASARLO A SU PROPIO SERVICIO
+  // ---------------------------- PASARLO A SU PROPIO SERVICIO
+
   registerPaciente(pacienteData: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.post(`${this.baseUrl}v2/paciente`, pacienteData, { headers });
+    return this.http.post(`${this.baseUrl}v2/paciente`, pacienteData, { withCredentials: true });
   }
 
-    // Método para obtener un paciente por su NSS
-    getPacienteByNss(nss: string): Observable<any> {
-      const token = localStorage.getItem('token');
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      });
-  
-      return this.http.get(`${this.baseUrl}v2/paciente/${nss}`, { headers });
-    }
-  
-    // Método para actualizar un paciente
-    updatePaciente(nss: string, pacienteData: any): Observable<any> {
-      const token = localStorage.getItem('token');
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      });
-  
-      return this.http.put(`${this.baseUrl}v2/paciente/${nss}`, pacienteData, { headers });
-    }
+  getPacienteByNss(nss: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}v2/paciente/${nss}`, { withCredentials: true });
+  }
 
-    
-
+  updatePaciente(nss: string, pacienteData: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}v2/paciente/${nss}`, pacienteData, { withCredentials: true });
+  }
 }

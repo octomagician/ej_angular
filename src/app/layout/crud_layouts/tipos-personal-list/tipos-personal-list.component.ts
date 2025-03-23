@@ -18,8 +18,10 @@ export class TiposPersonalListComponent implements OnInit {
     ];
 
     constructor(private authService: AuthService, private router: Router) {}
-
     ngOnInit(): void {
-        this.isAdminUser = this.authService.isAdmin();
+        // Verificar si el usuario es administrador
+        this.authService.isAdmin().subscribe((isAdmin) => {
+          this.isAdminUser = isAdmin; // Actualizar la variable con el valor emitido por el Observable
+        });
     }
 }

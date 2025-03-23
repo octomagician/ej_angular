@@ -72,12 +72,12 @@ export class EntrarComponent implements OnInit {
   
     this.authService.entrar(userCredentials as User).subscribe({
       next: (response: any) => {
-        if (response && response.token) {
-          
-          // Guardar el token y el rol usando el AuthService
-          this.authService.setUserData(response.token, response.role, response.username);
+        if (response && response.username) {
+          // Actualizar el nombre del usuario en el AuthService
+          this.authService.setUserName(response.username);
 
           this.datosNoGuardados = false;
+          console.log('Cookie antes de redirigir:', document.cookie); // Verificar la cookie
           this.router.navigate(['/inicio']);
         }
       },

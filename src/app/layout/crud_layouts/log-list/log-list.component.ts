@@ -33,8 +33,11 @@ export class LogListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Verificar si el usuario es administrador
-    this.isAdminUser = this.authService.isAdmin();
+
+      // Verificar si el usuario es administrador
+      this.authService.isAdmin().subscribe((isAdmin) => {
+        this.isAdminUser = isAdmin; // Actualizar la variable con el valor emitido por el Observable
+      });
 
     // Cargar los logs
     this.loadLogs();
