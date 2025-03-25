@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth/auth.service';
 import { User } from '../../interface/user';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-entrar',
@@ -77,7 +77,6 @@ export class EntrarComponent implements OnInit {
           this.authService.setUserName(response.username);
 
           this.datosNoGuardados = false;
-          console.log('Cookie antes de redirigir:', document.cookie); // Verificar la cookie
           this.router.navigate(['/inicio']);
         }
       },

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { AuthService } from '../service/auth/auth.service';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 
 @Injectable({
@@ -12,16 +12,19 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.authService.isAdmin().pipe(
-      map((isAdmin) => {
-        if (isAdmin) {
+      map((idAdmin) => {
+        if (idAdmin) {
+          console.log('AuthGuard: Administrador, acceso permitido');
           return true;
         } else {
-          this.router.navigate(['/']);
+          console.log('AuthGuard: No es admin, redirigiendo a /entrar');
+          this.router.navigate(['/entrar']);
           return false;
         }
       }),
       catchError(() => {
-        this.router.navigate(['/']);
+        console.error('AuthGuard: Error al verificar si es admin', Error);
+        this.router.navigate(['/entrar']);
         return of(false);
       })
     );

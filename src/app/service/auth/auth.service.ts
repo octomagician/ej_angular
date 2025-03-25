@@ -2,18 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../../interface/user';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
   private userNameSubject = new BehaviorSubject<string | null>(null); // BehaviorSubject para el nombre del usuario
   public userName$ = this.userNameSubject.asObservable(); // Observable para suscribirse al nombre
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false); // BehaviorSubject para el estado de autenticación
+  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable(); // Observable para suscribirse al estado de autenticación
   private baseUrl = 'http://127.0.0.1:8000/api/';
 
   constructor(private http: HttpClient) {
-    this.userNameSubject.next(this.getUserName()); // Inicializar con el nombre del usuario
+    this.checkAuthentication().subscribe(); // Verificar el estado de autenticación al inicializar el servicio
   }
 
   // -------------------------------------------------------------------- Registro de usuario
@@ -38,6 +41,13 @@ export class AuthService {
       catchError((error) => {
         console.error('Error en el login:', error);
         return throwError(error);
+      }),
+      tap((response: any) => {
+        // Actualizar el estado de autenticación y el nombre del usuario
+        this.isAuthenticatedSubject.next(true);
+        this.setUserName(response.username);
+        console.log('Desde auth.service, entrar, Usuario autenticado:', response.username);
+        console.log('Desde auth.service, entrar, Estado de autenticación:', this.isAuthenticatedSubject.value);
       })
     );
   }
@@ -59,6 +69,11 @@ export class AuthService {
       catchError((error) => {
         console.error('Error al cerrar sesión:', error);
         return throwError(error);
+      }),
+      tap(() => {
+        // Limpiar el estado de autenticación y el nombre del usuario
+        this.isAuthenticatedSubject.next(false);
+        this.userNameSubject.next(null);
       })
     );
   }
@@ -71,6 +86,19 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}esta-autenticado`, { withCredentials: true });
+  }
+
+  // Verificar el estado de autenticación al cargar la aplicación
+  checkAuthentication(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}esta-autenticado`, { withCredentials: true }).pipe(
+      tap((isAuthenticated: boolean) => {
+        this.isAuthenticatedSubject.next(isAuthenticated);
+      }),
+      catchError((error) => {
+        this.isAuthenticatedSubject.next(false);
+        return throwError(error);
+      })
+    );
   }
 
   // -------------------------------------------------------------------- Para el perfil

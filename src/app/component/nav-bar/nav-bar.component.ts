@@ -7,34 +7,39 @@ import { CommonModule } from '@angular/common';
   selector: 'app-nav-bar',
   imports: [RouterModule, CommonModule],
   templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.css' 
+  styleUrl: './nav-bar.component.css',
 })
-export class NavBarComponent implements OnInit{
+export class NavBarComponent implements OnInit {
   username: string | null = null; // Variable para almacenar el nombre del usuario
   isAdminUser: boolean = false; // Verificación de rol
   isAuth: boolean = false; // Verificación de autenticación
- constructor(public authService: AuthService, private router: Router) {}
+
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    console.log('Cookie:', document.cookie); // Verificar la cookie
-    // Verificar si ingresó un usuario
-    this.authService.isLoggedIn().subscribe((isAuth) => {
-      this.isAuth = isAuth; // Actualizar la variable con el valor emitido por el Observable
-    });
-    console.log('está autenticado?', this.isAuth);
+    // Suscribirse al estado de autenticación
+    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isAuth = isAuthenticated; // Actualizar el estado de autenticación
+      console.log('Desde el Navbar, Usuario autenticado:', this.isAuth);
 
-    // Verificar si el usuario es administrador
-    this.authService.isAdmin().subscribe((isAdmin) => {
-      this.isAdminUser = isAdmin; // Actualizar la variable con el valor emitido por el Observable
+      // Si el usuario está autenticado, verificar si es administrador
+      if (isAuthenticated) {
+        this.authService.isAdmin().subscribe((isAdmin) => {
+          this.isAdminUser = isAdmin; // Actualizar el estado del rol
+          console.log('Desde el Navbar, Estado de Administrador:', this.isAdminUser);
+        });
+      } else {
+        this.isAdminUser = false; // Si no está autenticado, no es administrador
+        console.log('Desde el Navbar, Estado de Administrador:', this.isAdminUser);
+      }
     });
-    console.log('es admin?', this.isAdminUser);
 
     // Suscribirse al Observable para recibir actualizaciones del nombre
     this.authService.userName$.subscribe((username) => {
       this.username = username;
+      console.log('Desde el Navbar, Nombre de Usuario:', this.username);
     });
   }
-
 
   // Método para cerrar sesión
   logout(): void {
@@ -42,7 +47,7 @@ export class NavBarComponent implements OnInit{
       () => {
         this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio
       },
-      error => {
+      (error) => {
         console.error('Error al cerrar sesión', error);
       }
     );
