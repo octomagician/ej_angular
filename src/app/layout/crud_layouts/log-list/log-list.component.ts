@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { LogService } from '../../../service/log/log.service';
 import { AuthService } from '../../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { PaginationComponent } from '../../../component/pagination/pagination.component';
+import { Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-log-list',
-  imports: [CommonModule, PaginationComponent], // Añade el componente de paginación aquí
+  imports: [CommonModule, PaginationComponent],
   templateUrl: './log-list.component.html',
   styleUrls: ['./log-list.component.css'],
 })
-export class LogListComponent implements OnInit {
-  logs: any[] = []; // Lista completa de logs
-  filteredLogs: any[] = []; // Lista de logs filtrados/paginados
-  isLoading: boolean = true; // Estado de carga
-  errorMessage: string | null = null; // Mensaje de error
-  isAdminUser: boolean = false; // Verificación de rol
+export class LogListComponent implements OnInit, OnDestroy {
+  private eventosSubscription!: Subscription;
+  logs: any[] = [];
+  filteredLogs: any[] = [];
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
+  isAdminUser: boolean = false;
 
   // Paginación
   currentPage: number = 1;
@@ -24,57 +27,94 @@ export class LogListComponent implements OnInit {
 
   constructor(
     private logService: LogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    // Verificar si el usuario es administrador
     this.isAdminUser = this.authService.isAdmin();
-
-    // Cargar los logs
-    this.loadLogs();
+    this.loadInitialLogs();
+    this.setupSSEConnection();
   }
 
-  // Cargar los logs desde el backend
-  loadLogs(): void {
+  loadInitialLogs(): void {
     this.isLoading = true;
-    this.errorMessage = null;
-
-    this.logService.getLogs().subscribe(
-      (data: any[]) => {
-        // orden b a, más reciente primero
-        this.logs = data.sort((a, b) => {
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        });
-        this.filteredLogs = this.logs; // Asignar los logs ordenados
-        this.calculateTotalPages();
-        this.updateDisplayedLogs();
+    this.logService.getLogs().subscribe({
+      next: (data) => {
+        this.logs = data.sort((a, b) => 
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        this.updateView();
         this.isLoading = false;
+        this.cdr.detectChanges(); // Forzar actualización
       },
-      (error) => {
-        this.errorMessage = 'Error al cargar los logs.';
+      error: (error) => {
+        this.errorMessage = 'Error al cargar logs iniciales';
         this.isLoading = false;
       }
-    );
+    });
   }
 
-  // Calcular el número total de páginas
+  setupSSEConnection(): void {
+    this.eventosSubscription = this.logService.conectarEventos().pipe(
+      distinctUntilChanged((prev, curr) => prev._id === curr._id)
+    ).subscribe({
+      next: (newLog) => {
+        console.log('Nuevo log recibido:', newLog);
+        console.log('Logs antes:', this.logs); // Debug 1
+        
+        // Filtra duplicados y añade al inicio
+        if (!this.logs.some(log => log._id === newLog._id)) {
+          this.logs.unshift(newLog);
+          
+          // Limita a 100 registros máximo
+          if (this.logs.length > 100) {
+            this.logs = this.logs.slice(0, 100);
+          }
+          
+          this.updateView();
+          console.log('Logs después:', this.logs); // Debug 2
+          this.cdr.detectChanges(); // Forzar actualización
+        }
+      },
+      error: (err) => {
+        console.error('Error SSE:', err);
+        this.errorMessage = 'Error en conexión en tiempo real';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  updateView(): void {
+    this.calculateTotalPages();
+    this.updateDisplayedLogs();
+  }
+
   calculateTotalPages(): void {
-    this.totalPages = Math.ceil(this.filteredLogs.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.logs.length / this.itemsPerPage);
   }
 
-  // Actualizar los logs mostrados según la página actual
   updateDisplayedLogs(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.filteredLogs = this.logs.slice(startIndex, endIndex);
+    this.filteredLogs = [...this.logs.slice(startIndex, endIndex)]; // Crear nuevo array
   }
 
-  // Cambiar de página
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.updateDisplayedLogs();
+      this.cdr.detectChanges();
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventosSubscription) {
+      this.eventosSubscription.unsubscribe();
+    }
+  }
+
+  trackById(index: number, log: any): string {
+    return log._id; // Mejor rendimiento para *ngFor
   }
 }

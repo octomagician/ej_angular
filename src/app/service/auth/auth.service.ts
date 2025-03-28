@@ -56,6 +56,14 @@ export class AuthService {
       return localStorage.getItem('usuario');
     }
 
+    getToken(): string {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No se encontró token de autenticación');
+      }
+      return token.trim().replace(/^"(.*)"$/, '$1');
+    }
+
     // --------------------------------------------------------------------
 
   // logout de usuario?

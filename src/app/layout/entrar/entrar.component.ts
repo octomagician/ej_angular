@@ -76,6 +76,9 @@ export class EntrarComponent implements OnInit {
           
           // Guardar el token y el rol usando el AuthService
           this.authService.setUserData(response.token, response.role, response.username);
+          console.log('Token guardado:', response.token);
+          console.log('Rol guardado:', response.role);
+          console.log('Nombre de usuario guardado:', response.username);
 
           this.datosNoGuardados = false;
           this.router.navigate(['/inicio']);

@@ -39,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let log of filteredLogs">
+        <tr *ngFor="let log of filteredLogs; trackBy: trackById">
           <td>{{ log._id }}</td>
           <td>{{ log.action }}</td>
           <td>{{ log.user_id }}</td>
