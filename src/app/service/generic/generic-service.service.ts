@@ -31,6 +31,12 @@ export class GenericService<T> {
   create(endpoint: string, data: T): Observable<T> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+        // Caso especial para pacientes
+        if (endpoint === 'pacientes') {
+          return this.http.post<any>(`${this.apiUrl}/${endpoint}`, data, { headers });
+        }
+
     return this.http.post<T>(`${this.apiUrl}/${endpoint}`, data, { headers });
   }
 

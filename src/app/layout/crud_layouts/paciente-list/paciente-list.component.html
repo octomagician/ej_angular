@@ -1,0 +1,73 @@
+<div class="item-list container mt-4">
+    <h1 class="mb-4">Listado de Pacientes</h1>
+  
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- Buscador -->
+        <div class="search">
+            <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="searchId"
+                placeholder="Buscar por ID"
+                (input)="searchItem()"
+                min="0"
+            />
+        </div>
+  
+      <!-- Botón para crear -->
+      <div *ngIf="isAdminUser" class="actions">
+        <button class="btn btn-primary" (click)="goToCreate()"><span class="material-icons">add</span></button>
+    </div>
+  
+    <!-- Paginación-->
+    <div class="d-flex justify-content-center mb-3">
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (pageChange)="changePage($event)"
+      ></app-pagination>
+    </div>
+    </div>
+    
+    <!-- Tabla de pacientes -->
+      <table class="table table-striped table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre Completo</th>
+            <th>Sexo</th>
+            <th>Fecha Nacimiento</th>
+            <th>NSS</th>
+            <th>Teléfono</th>
+            <th *ngIf="isAdminUser">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let paciente of displayedPacientes">
+            <td>{{ paciente.id }}</td>
+            <td>
+              {{ paciente.persona.nombre }} 
+              {{ paciente.persona.apellido_paterno }} 
+              {{ paciente.persona.apellido_materno }}
+            </td>
+            <td>
+              <i [class]="paciente.persona.sexo === 'M' ? 'fas fa-mars text-primary' : 'fas fa-venus text-danger'"></i>
+              {{ paciente.persona.sexo === 'M' ? 'Masculino' : 'Femenino' }}
+            </td>
+            <td>{{ paciente.nacimiento | date:'dd/MM/yyyy' }}</td>
+            <td class="font-monospace">{{ paciente.nss }}</td>
+            <td>
+              <a href="tel:{{paciente.tel_1}}">{{ paciente.tel_1 }}</a>
+              <span *ngIf="paciente.tel_2"> / <a href="tel:{{paciente.tel_2}}">{{ paciente.tel_2 }}</a></span>
+            </td>
+                <td *ngIf="isAdminUser">
+                    <button class="btn btn-warning" (click)="editItem(paciente.id)"><span class="material-icons">edit</span></button>
+                    <button class="btn btn-danger" (click)="deleteItem(paciente.id)"><span class="material-icons">delete</span></button>
+                </td>
+          </tr>
+          <tr *ngIf="displayedPacientes.length === 0">
+            <td colspan="7" class="text-center">No se encontraron pacientes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

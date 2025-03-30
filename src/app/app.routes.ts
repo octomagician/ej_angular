@@ -7,6 +7,11 @@ import { RegistrarseComponent } from './layout/registrarse/registrarse.component
 import { VerificacionComponent } from './layout/verificacion/verificacion.component';
 import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reenvio-verificacion.component';
 // CRUD
+/*
+import { PacienteFormComponent } from './layout/crud_layouts/paciente-form/paciente-form.component';*/
+import { PacienteListComponent } from './layout/crud_layouts/paciente-list/paciente-list.component';
+import { IngresoFormComponent } from './layout/crud_layouts/ingreso-form/ingreso-form.component';
+import { IngresoListComponent } from './layout/crud_layouts/ingreso-list/ingreso-list.component';
 import { CamaFormComponent } from './layout/crud_layouts/cama-form/cama-form.component';
 import { CamaListComponent } from './layout/crud_layouts/cama-list/cama-list.component';
 import { DiagnosticoFormComponent } from './layout/crud_layouts/diagnostico-form/diagnostico-form.component';
@@ -21,8 +26,6 @@ import { TiposPersonalFormComponent } from './layout/crud_layouts/tipos-personal
 import { TiposPersonalListComponent } from './layout/crud_layouts/tipos-personal-list/tipos-personal-list.component';
 import { TiposDeEstudioFormComponent } from './layout/crud_layouts/tipos-de-estudio-form/tipos-de-estudio-form.component';
 import { TiposDeEstudioListComponent } from './layout/crud_layouts/tipos-de-estudio-list/tipos-de-estudio-list.component';
-import { IngresoFormComponent } from './layout/crud_layouts/ingreso-form/ingreso-form.component';
-import { IngresoListComponent } from './layout/crud_layouts/ingreso-list/ingreso-list.component';
 import { LogListComponent } from './layout/crud_layouts/log-list/log-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
@@ -68,6 +71,27 @@ export const routes: Routes = [
     title: 'Reenvio Verificación',
     canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
   },
+  // --------------------------------------------------------------------
+  {
+    path: 'pacientes',
+    component: PacienteListComponent,
+    title: 'Pacientes',
+    canActivate: [AuthGuard]
+  },/*
+  {
+    path: 'pacientes/crear',
+    component: PacienteFormComponent,
+    title: 'Crear Paciente',
+    canActivate: [AdminGuard],
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'pacientes/editar/:id',
+    component: PacienteFormComponent,
+    title: 'Editar Paciente',
+    canActivate: [AdminGuard],
+    canDeactivate: [ExitGuard],
+  },*/
     // --------------------------------------------------------------------
     {
       path: 'ingresos',
