@@ -38,9 +38,30 @@ export class PacienteListComponent implements OnInit {
     private router: Router
   ) {}
 
+  //POLLEO
+  private pollingInterval: any;
+  private readonly POLLING_INTERVAL = 30000; // 30 segundos
+
   ngOnInit(): void {
     this.isAdminUser = this.authService.isAdmin();
     this.loadPacientes();
+    this.startPolling();
+  }
+
+  ngOnDestroy(): void {
+    this.stopPolling();
+  }
+
+  startPolling(): void {
+    this.pollingInterval = setInterval(() => {
+      this.loadPacientes();
+    }, this.POLLING_INTERVAL);
+  }
+  
+  stopPolling(): void {
+    if (this.pollingInterval) {
+      clearInterval(this.pollingInterval);
+    }
   }
 
   loadPacientes(): void {
