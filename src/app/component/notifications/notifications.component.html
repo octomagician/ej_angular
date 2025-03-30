@@ -1,0 +1,44 @@
+<div class="notifications-container">
+    <button (click)="toggleNotifications()" class="notification-button">
+        <span class="material-icons">notifications</span>
+      <span *ngIf="notifications.length > 0" class="badge">{{ notifications.length }}</span>
+    </button>
+  
+    <div *ngIf="showNotifications" class="notifications-dropdown">
+      <div class="notifications-header">
+        <h3>Notificaciones</h3>
+        <button (click)="clearNotifications()" class="clear-button">Limpiar</button>
+      </div>
+      
+      <div *ngIf="notifications.length === 0" class="empty-notifications">
+        No hay notificaciones nuevas
+      </div>
+  
+      <div *ngFor="let notification of notifications" 
+      class="notification-item"
+      [class.notification-created]="notification.type === 'created'"
+      [class.notification-updated]="notification.type === 'updated'"
+      [class.notification-deleted]="notification.type === 'deleted'">
+      
+   <div class="notification-icon">
+     <span *ngIf="notification.type === 'created'">✅</span>
+     <span *ngIf="notification.type === 'updated'">✏️</span>
+     <span *ngIf="notification.type === 'deleted'">❌</span>
+     <span *ngIf="!['created','updated','deleted'].includes(notification.type)">ℹ️</span>
+   </div>
+   
+   <div class="notification-content">
+     <div class="notification-message">{{ notification.message }}</div>
+     <div class="notification-time">{{ notification.timestamp | date:'mediumTime' }}</div>
+     
+     <!-- Mostrar detalles adicionales si existen -->
+     <div *ngIf="notification.rawData?.details" class="notification-details">
+       <div *ngIf="notification.rawData.details.sintomatologia">
+         <strong>Síntomas:</strong> {{ notification.rawData.details.sintomatologia }}
+       </div>
+       <div *ngIf="notification.rawData.details.usuario">
+         <strong>Por:</strong> {{ notification.rawData.details.usuario }}
+       </div>
+     </div>
+   </div>
+ </div>

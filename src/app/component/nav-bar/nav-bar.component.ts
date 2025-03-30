@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { NotificationsComponent } from '../notifications/notifications.component';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, NotificationsComponent],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css' 
 })

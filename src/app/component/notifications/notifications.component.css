@@ -1,0 +1,136 @@
+.notifications-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px; /* Espacio del icono respecto a otros elementos */
+}
+
+.notification-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    font-size: 1.5rem;
+    color: white; /* Cambiado a blanco para combinar con navbar oscuro */
+    transition: all 0.3s ease;
+}
+
+.notification-button:hover {
+    color: #aab8c2; /* Color más claro al hacer hover */
+}
+
+.badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.notifications-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 350px;
+    max-height: 500px;
+    overflow-y: auto;
+    background: #1b263b; /* Mismo color que el navbar */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    z-index: 1000;
+    padding: 10px;
+    color: white; /* Texto blanco para contraste */
+    border: 1px solid #2a3a56; /* Borde sutil */
+}
+
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2a3a56; /* Borde más oscuro */
+}
+
+.notifications-header h3 {
+    color: white;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.clear-button {
+    background: none;
+    border: none;
+    color: #64b5f6; /* Azul claro para el botón */
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.clear-button:hover {
+    color: #bbdefb; /* Azul más claro al hacer hover */
+}
+
+.notification-item {
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border-left: 4px solid #2a3a56;
+    transition: background-color 0.2s;
+}
+
+.notification-item:hover {
+    background-color: #2a3a56; /* Fondo más claro al hacer hover */
+}
+
+.notification-item.created {
+    border-left-color: #81c784;
+    background-color: rgba(129, 199, 132, 0.1);
+}
+
+.notification-item.updated {
+    border-left-color: #ffd54f;
+    background-color: rgba(255, 213, 79, 0.1);
+}
+
+.notification-item.deleted {
+    border-left-color: #e57373;
+    background-color: rgba(229, 115, 115, 0.1);
+}
+
+.notification-message {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: white;
+}
+
+.notification-time {
+    font-size: 0.8rem;
+    color: #aab8c2; /* Color gris claro para el tiempo */
+}
+
+.empty-notifications {
+    padding: 20px;
+    text-align: center;
+    color: #aab8c2;
+}
+
+.notification-details {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #ddd;
+    font-size: 0.85em;
+    color: #555;
+  }
+  
+  .notification-details div {
+    margin-bottom: 4px;
+  }

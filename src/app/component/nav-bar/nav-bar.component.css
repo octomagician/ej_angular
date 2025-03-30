@@ -28,3 +28,16 @@ app-nav-bar {
   .nav-link {
     cursor: pointer; /* Cambia el cursor a pointer para los enlaces */
   }
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #1b263b !important;
+}
+
+/* Esto asegura que el icono de notificaciones esté alineado con otros elementos */
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}

@@ -33,13 +33,16 @@ export class GenericListComponent<T extends BaseItem> implements OnInit {
   }
 
   // Cargar todos los registros
-  loadItems(): void {
+  public loadItems(): void {
+    console.log('[GenericList] Cargando items desde', this.endpoint);
     this.genericService.getAll(this.endpoint).subscribe((data) => {
       console.log(this.endpoint)
+      console.log('[GenericList] Datos recibidos', data);
       this.items = data;
       this.filteredItems = data;
       this.calculateTotalPages();
       this.updateDisplayedItems();
+      console.log('[GenericList] Datos cargados y vista actualizada');
     });
     console.log(this.items);
     console.log(this.filteredItems);
@@ -88,9 +91,13 @@ export class GenericListComponent<T extends BaseItem> implements OnInit {
   }
 
   updateDisplayedItems(): void {
+    console.log('[GenericList] Actualizando items mostrados');
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.filteredItems = this.items.slice(startIndex, endIndex);
+    console.log('[GenericList] Items mostrados actualizados', {
+      displayedCount: this.filteredItems.length
+  });
   }
 
   changePage(page: number): void {

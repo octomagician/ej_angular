@@ -28,35 +28,35 @@
       -->
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="camas" class="nav-link">Camas</a>
+        <a routerLink="camas" class="nav-link"><span class="material-icons">bed</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="diagnosticos" class="nav-link">Diagnósticos</a>
+        <a routerLink="diagnosticos" class="nav-link"><span class="material-icons">sick</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="areas" class="nav-link">Áreas</a>
+        <a routerLink="areas" class="nav-link"><span class="material-icons">map</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="historial" class="nav-link">Historial</a>
+        <a routerLink="historial" class="nav-link"><span class="material-icons">history</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="estudios" class="nav-link">Estudios</a>
+        <a routerLink="estudios" class="nav-link"><span class="material-icons">analytics</span></a>
       </li>
 
     <li class="nav-item" *ngIf="authService.isLoggedIn()">
-      <a routerLink="tipos-personal" class="nav-link">Tipos de personal</a>
+      <a routerLink="tipos-personal" class="nav-link"><span class="material-icons">work</span></a>
     </li>
 
     <li class="nav-item" *ngIf="authService.isLoggedIn()">
-      <a routerLink="tipos-de-estudio" class="nav-link">Tipos de estudios</a>
+      <a routerLink="tipos-de-estudio" class="nav-link"><span class="material-icons">medication</span></a>
     </li>
 
     <li class="nav-item" *ngIf="authService.isAdmin()">
-      <a routerLink="logs" class="nav-link">Logs</a>
+      <a routerLink="logs" class="nav-link"><span class="material-icons">info</span></a>
     </li>
   </ul>
 
@@ -66,6 +66,8 @@
         <span class="nav-link">Bienvenido, {{ username }}</span>
       </li>
 
+      <app-notifications></app-notifications>
+
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
         <a class="nav-link"></a>
       </li>
@@ -77,7 +79,7 @@
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a class="nav-link" (click)="logout()">Salir</a>
+        <a class="nav-link" (click)="logout()"><span class="material-icons">logout</span></a>
       </li>
     </ul>
   </div>
