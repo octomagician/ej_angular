@@ -49,10 +49,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   
     // Mensajes específicos para cada acción
     const messages: any = {
-      created: `Nuevo registro creado (ID: ${itemId})`,
-      updated: `Registro actualizado (ID: ${itemId})`,
-      deleted: `Registro eliminado (ID: ${itemId})`,
-      default: `Cambio en historial (ID: ${itemId})`
+      created: `✅ Nuevo registro creado (ID: ${itemId})`,
+      updated: `✏️ Registro actualizado (ID: ${itemId})`,
+      deleted: `❌ Registro eliminado (ID: ${itemId})`,
+      default: `ℹ️ Cambio en historial (ID: ${itemId})`
     };
     
     const message = messages[action] || messages.default;

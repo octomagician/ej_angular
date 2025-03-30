@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IngresosComponent } from './ingresos.component';
+import { IngresoFormComponent } from './ingreso-form.component';
 
-describe('IngresosComponent', () => {
-  let component: IngresosComponent;
-  let fixture: ComponentFixture<IngresosComponent>;
+describe('IngresoFormComponent', () => {
+  let component: IngresoFormComponent;
+  let fixture: ComponentFixture<IngresoFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IngresosComponent]
+      imports: [IngresoFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(IngresosComponent);
+    fixture = TestBed.createComponent(IngresoFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -20,12 +20,13 @@
       [class.notification-updated]="notification.type === 'updated'"
       [class.notification-deleted]="notification.type === 'deleted'">
       
+      <!--
    <div class="notification-icon">
-     <span *ngIf="notification.type === 'created'">✅</span>
-     <span *ngIf="notification.type === 'updated'">✏️</span>
-     <span *ngIf="notification.type === 'deleted'">❌</span>
-     <span *ngIf="!['created','updated','deleted'].includes(notification.type)">ℹ️</span>
-   </div>
+     <span *ngIf="notification.type === 'created'"></span>
+     <span *ngIf="notification.type === 'updated'"></span>
+     <span *ngIf="notification.type === 'deleted'"></span>
+     <span *ngIf="!['created','updated','deleted'].includes(notification.type)"></span>
+   </div>-->
    
    <div class="notification-content">
      <div class="notification-message">{{ notification.message }}</div>

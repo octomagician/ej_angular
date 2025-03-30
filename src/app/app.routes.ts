@@ -21,6 +21,8 @@ import { TiposPersonalFormComponent } from './layout/crud_layouts/tipos-personal
 import { TiposPersonalListComponent } from './layout/crud_layouts/tipos-personal-list/tipos-personal-list.component';
 import { TiposDeEstudioFormComponent } from './layout/crud_layouts/tipos-de-estudio-form/tipos-de-estudio-form.component';
 import { TiposDeEstudioListComponent } from './layout/crud_layouts/tipos-de-estudio-list/tipos-de-estudio-list.component';
+import { IngresoFormComponent } from './layout/crud_layouts/ingreso-form/ingreso-form.component';
+import { IngresoListComponent } from './layout/crud_layouts/ingreso-list/ingreso-list.component';
 import { LogListComponent } from './layout/crud_layouts/log-list/log-list.component';
 // Guards
 import { AuthGuard } from './guard/auth.guard';
@@ -28,13 +30,8 @@ import { NoAuthGuard } from './guard/no-auth.guard';
 import { AdminGuard } from './guard/admin.guard';
 import { ExitGuard } from './guard/exit.guard';
 
-// ??????????
-import { PerfilComponent } from './layout/perfil/perfil.component';
-import { IngresosComponent } from './layout/crud_layouts/ingresos/ingresos.component';
-// Hijos
 
-import { ModificarExistenteComponent } from './layout/miniform/modificar-existente/modificar-existente.component';
-import { NuevoIngresoComponent } from './layout/miniform/nuevo-ingreso/nuevo-ingreso.component';
+import { PerfilComponent } from './layout/perfil/perfil.component';
 
 export const routes: Routes = [
   {
@@ -71,6 +68,27 @@ export const routes: Routes = [
     title: 'Reenvio Verificación',
     canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
   },
+    // --------------------------------------------------------------------
+    {
+      path: 'ingresos',
+      component: IngresoListComponent,
+      title: 'Ingresos',
+      canActivate: [AuthGuard]
+    },
+    {
+      path: 'ingresos/crear',
+      component: IngresoFormComponent,
+      title: 'Crear Ingreso',
+      canActivate: [AdminGuard],
+      canDeactivate: [ExitGuard],
+    },
+    {
+      path: 'ingresos/editar/:id',
+      component: IngresoFormComponent,
+      title: 'Editar Ingreso',
+      canActivate: [AdminGuard],
+      canDeactivate: [ExitGuard],
+    },
   // --------------------------------------------------------------------
   {
     path: 'camas',
@@ -218,7 +236,7 @@ export const routes: Routes = [
     canActivate: [AdminGuard], // Solo accesible si eres administrador
     canDeactivate: [ExitGuard],
   },
-  // --------------------------------------------------------------------
+   // --------------------------------------------------------------------
   {
     path: 'logs',
     component: LogListComponent,
@@ -232,16 +250,6 @@ export const routes: Routes = [
     title: 'Perfil',
     canActivate: [AuthGuard], // Solo accesible si estás conectado
     canDeactivate: [ExitGuard]
-  },
-  {
-    path: 'ingresos',
-    component: IngresosComponent,
-    title: 'Ingresos',
-    canActivate: [AuthGuard], // Solo accesible si estás conectado
-    children: [
-      { path: 'nuevo-ingreso', component: NuevoIngresoComponent, canDeactivate: [ExitGuard] },
-      { path: 'modificar-existente', component: ModificarExistenteComponent, canDeactivate: [ExitGuard] },
-    ],
   },
   // --------------------------------------------------------------------
   {
