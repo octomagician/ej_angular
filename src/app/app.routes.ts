@@ -7,8 +7,8 @@ import { RegistrarseComponent } from './layout/registrarse/registrarse.component
 import { VerificacionComponent } from './layout/verificacion/verificacion.component';
 import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reenvio-verificacion.component';
 // CRUD
-/*
-import { PacienteFormComponent } from './layout/crud_layouts/paciente-form/paciente-form.component';*/
+
+import { PacienteFormComponent } from './layout/crud_layouts/paciente-form/paciente-form.component';
 import { PacienteListComponent } from './layout/crud_layouts/paciente-list/paciente-list.component';
 import { IngresoFormComponent } from './layout/crud_layouts/ingreso-form/ingreso-form.component';
 import { IngresoListComponent } from './layout/crud_layouts/ingreso-list/ingreso-list.component';
@@ -77,7 +77,7 @@ export const routes: Routes = [
     component: PacienteListComponent,
     title: 'Pacientes',
     canActivate: [AuthGuard]
-  },/*
+  },
   {
     path: 'pacientes/crear',
     component: PacienteFormComponent,
@@ -91,7 +91,7 @@ export const routes: Routes = [
     title: 'Editar Paciente',
     canActivate: [AdminGuard],
     canDeactivate: [ExitGuard],
-  },*/
+  },
     // --------------------------------------------------------------------
     {
       path: 'ingresos',

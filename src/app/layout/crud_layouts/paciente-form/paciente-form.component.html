@@ -1,0 +1,95 @@
+<div class="container mt-4">
+    <h1>{{ isEditMode ? 'Editar Paciente' : 'Crear Paciente' }}</h1>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="pacienteForm" (ngSubmit)="onSubmit()">
+        <!-- Datos Personales -->
+        <div class="form-group mb-3">
+            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="nombre">
+            <div *ngIf="pacienteForm.get('nombre')?.invalid && pacienteForm.get('nombre')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Apellido Paterno <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="apellido_paterno">
+            <div *ngIf="pacienteForm.get('apellido_paterno')?.invalid && pacienteForm.get('apellido_paterno')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Apellido Materno</label>
+            <input type="text" class="form-control" formControlName="apellido_materno">
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Sexo <span class="text-danger">*</span></label>
+            <select class="form-select" formControlName="sexo">
+                <option value="">Seleccione...</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+            <div *ngIf="pacienteForm.get('sexo')?.invalid && pacienteForm.get('sexo')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Fecha de Nacimiento <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" formControlName="nacimiento">
+            <div *ngIf="pacienteForm.get('nacimiento')?.invalid && pacienteForm.get('nacimiento')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <!-- Datos de Contacto -->
+        <div class="form-group mb-3">
+            <label class="form-label">Dirección <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="direccion">
+            <div *ngIf="pacienteForm.get('direccion')?.invalid && pacienteForm.get('direccion')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Teléfono Principal <span class="text-danger">*</span></label>
+            <input type="tel" class="form-control" formControlName="tel_1">
+            <div *ngIf="pacienteForm.get('tel_1')?.invalid && pacienteForm.get('tel_1')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label">Teléfono Secundario</label>
+            <input type="tel" class="form-control" formControlName="tel_2">
+        </div>
+
+        <!-- Datos Médicos -->
+        <div class="form-group mb-3">
+            <label class="form-label">Número de Seguro Social <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" formControlName="nss">
+            <div *ngIf="pacienteForm.get('nss')?.invalid && pacienteForm.get('nss')?.touched" 
+                 class="text-danger">
+                Este campo es requerido
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary" [disabled]="pacienteForm.invalid">
+                {{ isEditMode ? 'Guardar Cambios' : 'Crear Paciente' }}
+            </button>
+        </div>
+    </form>
+</div>
