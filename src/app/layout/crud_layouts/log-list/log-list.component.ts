@@ -60,21 +60,12 @@ export class LogListComponent implements OnInit, OnDestroy {
       distinctUntilChanged((prev, curr) => prev._id === curr._id)
     ).subscribe({
       next: (newLog) => {
-        console.log('Nuevo log recibido:', newLog);
-        console.log('Logs antes:', this.logs); // Debug 1
-        
-        // Filtra duplicados y añade al inicio
         if (!this.logs.some(log => log._id === newLog._id)) {
-          this.logs.unshift(newLog);
-          
-          // Limita a 100 registros máximo
-          if (this.logs.length > 100) {
-            this.logs = this.logs.slice(0, 100);
-          }
-          
+          // Usa spread operator para inmutabilidad en lugar de unshift
+          this.logs = [newLog, ...this.logs].slice(0, 100);
           this.updateView();
-          console.log('Logs después:', this.logs); // Debug 2
-          this.cdr.detectChanges(); // Forzar actualización
+          // Elimina este detectChanges si no es absolutamente necesario
+          // this.cdr.detectChanges();
         }
       },
       error: (err) => {
@@ -115,6 +106,6 @@ export class LogListComponent implements OnInit, OnDestroy {
   }
 
   trackById(index: number, log: any): string {
-    return log._id; // Mejor rendimiento para *ngFor
+    return `${log._id}_${index}`;
   }
 }

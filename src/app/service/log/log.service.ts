@@ -9,8 +9,8 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
   providedIn: 'root'
 })
 export class LogService {
-  private apiUrl = 'http://127.0.0.1:8000/api/logs';
-  private baseUrl = 'http://127.0.0.1:8000/api/';
+  private apiUrl = 'http://192.168.113.110:8000/api/logs';
+  private baseUrl = 'http://192.168.113.110:8000/api/';
 
   constructor(
     private http: HttpClient,
@@ -31,6 +31,7 @@ export class LogService {
     return new Observable(observer => {
       const token = this.authService.getToken();
       const abortController = new AbortController();
+      //this.conexionesSSE.push(abortController);
       let reconexionIntentos = 0;
       const maxReconexiones = 5;
 
@@ -84,7 +85,16 @@ export class LogService {
       return () => {
         console.log('Limpiando conexión SSE');
         abortController.abort();
+        // Eliminar el controller de la lista
+        this.conexionesSSE = this.conexionesSSE.filter(c => c !== abortController);
       };
     });
+  } 
+
+  private conexionesSSE: AbortController[] = [];
+
+  cerrarConexionesSSE(): void {
+    this.conexionesSSE.forEach(controller => controller.abort());
+    this.conexionesSSE = [];
   }
 }
