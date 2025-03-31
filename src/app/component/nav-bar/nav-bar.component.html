@@ -14,47 +14,47 @@
       <!--online-->
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="pacientes" class="nav-link"><span class="material-icons">sentiment_very_dissatisfied</span></a>
+        <a routerLink="pacientes" class="nav-link" title="Pacientes"><span class="material-icons">sentiment_very_dissatisfied</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="ingresos" class="nav-link"><span class="material-icons">sick</span></a>
+        <a routerLink="ingresos" class="nav-link" title="Ingresos"><span class="material-icons">sick</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="camas" class="nav-link"><span class="material-icons">bed</span></a>
+        <a routerLink="camas" class="nav-link" title="Camas"><span class="material-icons">bed</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="diagnosticos" class="nav-link"><span class="material-icons">coronavirus</span></a>
+        <a routerLink="diagnosticos" class="nav-link" title="Diagnósticos"><span class="material-icons">coronavirus</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="areas" class="nav-link"><span class="material-icons">map</span></a>
+        <a routerLink="areas" class="nav-link" title="Áreas"><span class="material-icons">map</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="historial" class="nav-link"><span class="material-icons">history</span></a>
+        <a routerLink="historial" class="nav-link" title="Historial"><span class="material-icons">history</span></a>
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="estudios" class="nav-link"><span class="material-icons">description</span></a>
+        <a routerLink="estudios" class="nav-link" title="Estudios"><span class="material-icons">description</span></a>
       </li>
 
     <li class="nav-item" *ngIf="authService.isLoggedIn()">
-      <a routerLink="tipos-personal" class="nav-link"><span class="material-icons">work</span></a>
+      <a routerLink="tipos-personal" class="nav-link" title="Tipos de personal"><span class="material-icons">work</span></a>
     </li>
 
     <li class="nav-item" *ngIf="authService.isLoggedIn()">
-      <a routerLink="tipos-de-estudio" class="nav-link"><span class="material-icons">favorite</span></a>
+      <a routerLink="tipos-de-estudio" class="nav-link" title="Tipos de estudio"><span class="material-icons">favorite</span></a>
     </li>
 
     <li class="nav-item" *ngIf="authService.isAdmin()">
-      <a routerLink="logs" class="nav-link"><span class="material-icons">info</span></a>
+      <a routerLink="logs" class="nav-link" title="Logs"><span class="material-icons">info</span></a>
     </li>
 
     <li class="nav-item" *ngIf="authService.isAdmin()">
-      <a routerLink="users" class="nav-link"><span class="material-icons">group</span></a>
+      <a routerLink="users" class="nav-link" title="Usuarios"><span class="material-icons">group</span></a>
     </li>
   </ul>
 
@@ -65,7 +65,7 @@
       </li>
 
       <li class="nav-item" *ngIf="authService.isLoggedIn()">
-        <a routerLink="perfil" class="nav-link"><span class="material-icons">person</span></a>
+        <a routerLink="perfil" class="nav-link" title="Perfil"><span class="material-icons">person</span></a>
       </li>
 
       <app-notifications></app-notifications>

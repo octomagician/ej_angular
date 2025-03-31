@@ -44,15 +44,15 @@ export class RegistrarseComponent implements OnInit {
   // Cargar los puestos desde el servicio
   cargarPuestos(): void {
     this.puestoService.getPuestoService().subscribe({
-      next: (data) => {
-        this.puesto = data.tipo_de_personal; // Acceder a la propiedad `tipo_de_personal`
+      next: (data: any) => {
+        // Accedemos a la propiedad correcta "tipos-personal" (con guión)
+        this.puesto = data["tipos-personal"] || [];
+        console.log('Puestos cargados:', this.puesto);
       },
       error: (error) => {
         console.error('Error al cargar los puestos:', error);
-      },
-      complete: () => {
-        console.log('Carga de puestos completada');
-      },
+        this.errorMessage = 'No se pudieron cargar los puestos disponibles.';
+      }
     });
   }
 
