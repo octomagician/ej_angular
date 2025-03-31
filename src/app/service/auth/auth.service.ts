@@ -147,4 +147,10 @@ deleteAccount(): Observable<any> {
   return this.http.delete(`${this.baseUrl}perfil`, { headers });
 }
 
+getAll(endpoint: string): Observable<any> { //para usuarios
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get(`${this.baseUrl}${endpoint}`, { headers });
+}
+
 }

@@ -7,7 +7,8 @@ import { RegistrarseComponent } from './layout/registrarse/registrarse.component
 import { VerificacionComponent } from './layout/verificacion/verificacion.component';
 import { ReenvioVerificacionComponent } from './layout/reenvio-verificacion/reenvio-verificacion.component';
 // CRUD
-
+import { UserFormComponent } from './layout/crud_layouts/user-form/user-form.component';
+import { UserListComponent } from './layout/crud_layouts/user-list/user-list.component';
 import { PacienteFormComponent } from './layout/crud_layouts/paciente-form/paciente-form.component';
 import { PacienteListComponent } from './layout/crud_layouts/paciente-list/paciente-list.component';
 import { IngresoFormComponent } from './layout/crud_layouts/ingreso-form/ingreso-form.component';
@@ -70,6 +71,27 @@ export const routes: Routes = [
     component: ReenvioVerificacionComponent,
     title: 'Reenvio Verificación',
     canActivate: [NoAuthGuard] // Solo accesible si no estás conectado
+  },
+  // --------------------------------------------------------------------
+  {
+    path: 'users',
+    component: UserListComponent,
+    title: 'Usuarios',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'users/crear',
+    component: UserFormComponent,
+    title: 'Crear Usuario',
+    canActivate: [AdminGuard],
+    canDeactivate: [ExitGuard],
+  },
+  {
+    path: 'users/editar/:id',
+    component: UserFormComponent,
+    title: 'Editar Usuario',
+    canActivate: [AdminGuard],
+    canDeactivate: [ExitGuard],
   },
   // --------------------------------------------------------------------
   {
