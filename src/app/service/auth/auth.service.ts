@@ -98,59 +98,53 @@ export class AuthService {
   }
 
 // -------------------------------------------------------------------- para el perfil
+    getPuestoService() {
+      return this.http.get(`${this.baseUrl}puesto`);
+    }
 
   // Obtener datos del usuario autenticado
   perfilData(): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.baseUrl}v2/perfil`, { headers });
+    return this.http.get(`${this.baseUrl}perfil`, { headers });
   }
 
   // Actualizar datos de usuario
-  updateUser(user: User): Observable<any> {
-    const token = localStorage.getItem('token'); // Obtener el token del localStorage
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Crear headers con el token
-    return this.http.put(`${this.baseUrl}v2/perfil`, user, { headers }); // Enviar la solicitud con los headers
+  updateUser(user: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log('Token en updateUser:', token);
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  
+    return this.http.put(`${this.baseUrl}perfil`, user, { headers });
   }
 
   //Cambiar contraseña
-  resetPassword(email: string): Observable<any> {
-    const url = `${this.baseUrl}v2/reset-password`;
-    return this.http.post(url, { email });
-  }
-
-  //---------------------------- PASARLO A SU PROPIO SERVICIO
-  registerPaciente(pacienteData: any): Observable<any> {
+  changePassword(data: {
+    current_password: string,
+    new_password: string,
+    new_password_confirmation: string
+  }): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
-    return this.http.post(`${this.baseUrl}v2/paciente`, pacienteData, { headers });
+  
+    return this.http.post(`${this.baseUrl}resetPassword`, data, { headers });
   }
 
-    // Método para obtener un paciente por su NSS
-    getPacienteByNss(nss: string): Observable<any> {
-      const token = localStorage.getItem('token');
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      });
-  
-      return this.http.get(`${this.baseUrl}v2/paciente/${nss}`, { headers });
-    }
-  
-    // Método para actualizar un paciente
-    updatePaciente(nss: string, pacienteData: any): Observable<any> {
-      const token = localStorage.getItem('token');
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      });
-  
-      return this.http.put(`${this.baseUrl}v2/paciente/${nss}`, pacienteData, { headers });
-    }
+  // borrar la cuenta propia
+deleteAccount(): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
 
-    
+  return this.http.delete(`${this.baseUrl}perfil`, { headers });
+}
 
 }

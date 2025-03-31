@@ -33,7 +33,7 @@ import { NoAuthGuard } from './guard/no-auth.guard';
 import { AdminGuard } from './guard/admin.guard';
 import { ExitGuard } from './guard/exit.guard';
 
-
+import { ChangePasswordComponent } from './layout/change-password/change-password.component';
 import { PerfilComponent } from './layout/perfil/perfil.component';
 
 export const routes: Routes = [
@@ -275,6 +275,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard], // Solo accesible si estás conectado
     canDeactivate: [ExitGuard]
   },
+  { path: 'change-password', 
+    component: ChangePasswordComponent,
+    title: 'Perfil',
+    canActivate: [AuthGuard], // Solo accesible si estás conectado
+    canDeactivate: [ExitGuard] },
   // --------------------------------------------------------------------
   {
     path: '**',

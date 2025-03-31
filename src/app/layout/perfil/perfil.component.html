@@ -69,13 +69,34 @@
       </div>
 
 
-      <div *ngIf="errorMessage" class="alert alert-danger">
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
         {{ errorMessage }}
       </div>
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary" [disabled]="!perfilForm.form.valid">
-          Guardar cambios
+  
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary" [disabled]="!perfilForm.form.valid || loading">
+          <span *ngIf="!loading">Guardar cambios</span>
+          <span *ngIf="loading">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Guardando...
+          </span>
         </button>
       </div>
     </form>
+
+    <!-- Agrega esto al final de tu formulario, antes del cierre del app-simple-card -->
+<div class="d-grid mt-3">
+  <button type="button" class="btn btn-outline-primary" 
+          (click)="navigateToChangePassword()">
+    Cambiar Contraseña
+  </button>
+</div>
+
+<!-- Agrega esto al final de tu formulario -->
+<div class="d-grid mt-4">
+  <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+    Eliminar Mi Cuenta
+  </button>
+</div>
+
   </app-simple-card>
