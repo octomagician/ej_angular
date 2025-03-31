@@ -4,7 +4,6 @@ import { User } from '../../interface/user';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { of, BehaviorSubject } from 'rxjs';
-import { LogService } from '../log/log.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ export class AuthService {
   public userName$ = this.userNameSubject.asObservable(); // Observable para suscribirse al nombre
   private baseUrl = 'http://192.168.113.110:8000/api/';
 
-  constructor(private http: HttpClient, /*private logService: LogService*/) { //instancia para inyectarse en el constructor
+  constructor(private http: HttpClient) { //instancia para inyectarse en el constructor
     this.userNameSubject.next(this.getUserName());} 
 
     // -------------------------------------------------------------------- Registro de usuario
@@ -77,7 +76,6 @@ export class AuthService {
     localStorage.removeItem('usuario');
     console.log('Token después de eliminar:', localStorage.getItem('token'));
     this.userNameSubject.next(null);
-    //this.logService.cerrarConexionesSSE();
     return this.http.delete(`${this.baseUrl}salir`, { headers }).pipe(
       catchError(error => {
         console.error('Error al cerrar sesión', error);

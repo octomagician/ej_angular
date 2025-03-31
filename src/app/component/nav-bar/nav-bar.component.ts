@@ -3,6 +3,7 @@ import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../service/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { NotificationsComponent } from '../notifications/notifications.component';
+import { SessionService } from '../../service/session-service/session-service.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,7 +13,7 @@ import { NotificationsComponent } from '../notifications/notifications.component
 })
 export class NavBarComponent implements OnInit{
   username: string | null = null; // Variable para almacenar el nombre del usuario
- constructor(public authService: AuthService, private router: Router) {}
+ constructor(public authService: AuthService, private router: Router, private sessionService: SessionService) {}
 
   // Método para inicializar el componente
   ngOnInit(): void {
@@ -24,13 +25,13 @@ export class NavBarComponent implements OnInit{
 
   // Método para cerrar sesión
   logout(): void {
-    this.authService.salir().subscribe(
-      () => {
-        this.router.navigate(['/inicio']); // Redirige al usuario a la página de inicio
+    this.sessionService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/inicio']);
       },
-      error => {
+      error: (error) => { // ← Corrige la sintaxis del error
         console.error('Error al cerrar sesión', error);
       }
-    );
+    });
   }
 }

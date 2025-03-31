@@ -31,7 +31,7 @@ export class LogService {
     return new Observable(observer => {
       const token = this.authService.getToken();
       const abortController = new AbortController();
-      //this.conexionesSSE.push(abortController);
+      this.conexionesSSE.push(abortController);
       let reconexionIntentos = 0;
       const maxReconexiones = 5;
 
@@ -94,7 +94,14 @@ export class LogService {
   private conexionesSSE: AbortController[] = [];
 
   cerrarConexionesSSE(): void {
-    this.conexionesSSE.forEach(controller => controller.abort());
+    console.log('Intentando cerrar conexiones SSE activas:', this.conexionesSSE.length);
+    
+    this.conexionesSSE.forEach((controller, index) => {
+      console.log(`Abortando conexión SSE ${index + 1}`);
+      controller.abort();
+    });
+    
     this.conexionesSSE = [];
+    console.log('Confirmación - Conexiones SSE restantes:', this.conexionesSSE.length);
   }
 }
