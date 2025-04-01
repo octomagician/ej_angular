@@ -12,7 +12,7 @@ import { of, BehaviorSubject } from 'rxjs';
 export class AuthService {
   private userNameSubject = new BehaviorSubject<string | null>(null); // BehaviorSubject para el nombre del usuario
   public userName$ = this.userNameSubject.asObservable(); // Observable para suscribirse al nombre
-  private baseUrl = 'http://192.168.113.110:8000/api/';
+  private baseUrl = 'http://127.0.0.1:8000/api/';
 
   constructor(private http: HttpClient) { //instancia para inyectarse en el constructor
     this.userNameSubject.next(this.getUserName());} 

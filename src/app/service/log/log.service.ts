@@ -9,8 +9,8 @@ import { fetchEventSource } from '@microsoft/fetch-event-source';
   providedIn: 'root'
 })
 export class LogService {
-  private apiUrl = 'http://192.168.113.110:8000/api/logs';
-  private baseUrl = 'http://192.168.113.110:8000/api/';
+  private apiUrl = 'http://127.0.0.1:8000/api/logs';
+  private baseUrl = 'http://127.0.0.1:8000/api/';
 
   constructor(
     private http: HttpClient,
