@@ -15,8 +15,21 @@
 
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
-      <button *ngIf="showResendButton" (click)="resendActivationEmail()" class="btn btn-link">
+      <div *ngIf="resendTimer > 0" class="mt-2">
+        <small>
+        Puedes solicitar otro código en: {{ resendTimer }}
+        <span *ngIf="resendTimer > 60">({{ resendTimer / 60 | number:'1.0-0' }} minutos)</span>
+      </small>
+      </div>
+      <button *ngIf="showResendButton" (click)="resendActivationEmail()" [disabled]="isResending" class="btn btn-link">
         Reenviar correo de activación
+        <span *ngIf="!isResending">
+          <i class="fas fa-paper-plane"></i> Reenviar código
+      </span>
+      <span *ngIf="isResending">
+          <i class="fas fa-spinner fa-spin"></i> Enviando...
+      </span>
+
       </button>
     </div>
 

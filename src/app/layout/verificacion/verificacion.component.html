@@ -3,17 +3,15 @@
         {{ mensaje }}
     </div>
 
-    <form (ngSubmit)="verificarCodigo()">
-        <div class="form-group">
-            <label for="email">Correo electrónico</label>
-            <input class="form-control" type="email" id="email" [(ngModel)]="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="codigo">Código de verificación</label>
-            <input class="form-control" type="text" id="codigo" [(ngModel)]="codigo" name="codigo" required maxlength="6">
-        </div>
-        <button class="btn btn-primary btn-block" type="submit">Verificar</button>
-    </form>
+    <div *ngIf="!verified">
+        <h2>Verificación de Email</h2>
+        <input [(ngModel)]="verificationCode" placeholder="Ingresa tu código">
+        <button (click)="verify()">Verificar</button>
+      </div>
+      <div *ngIf="verified">
+        <h2>¡Cuenta verificada!</h2>
+      </div>
+  
     ¿Problemas? <a routerLink="/reenvio-verificacion">Volver a recibir código</a>
 
 </app-simple-card>

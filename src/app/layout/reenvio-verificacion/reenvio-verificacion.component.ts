@@ -43,6 +43,8 @@ export class ReenvioVerificacionComponent {
           this.mensaje = 'Credenciales inválidas. Por favor, verifica tu correo y contraseña.';
         } else if (error.status === 400) {
           this.mensaje = 'La cuenta ya está activada.';
+        } else if (error.status === 429) {
+          this.mensaje = 'Tienes un código de verificación pendiente. Por favor, verifica tu correo.';
         } else {
           this.mensaje = 'Ocurrió un error al reenviar el correo. Por favor, intenta de nuevo más tarde.';
         }

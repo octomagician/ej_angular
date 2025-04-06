@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SimpleCardComponent } from '../../component/simple-card/simple-card.component';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth/auth.service';
 import { User } from '../../interface/user';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-entrar',
@@ -21,9 +22,57 @@ export class EntrarComponent implements OnInit {
   datosNoGuardados: boolean = false;
   registroExitoso: boolean = false; // Variable para controlar el mensaje
   showResendButton: boolean = false; // controlar el botón de reenvío
-  private errorTimeout: any; // Variable para almacenar el timeout
 
-  // Método del Guard Exit
+  // Variables para el temporizador
+  resendTimer: number = 0;
+  timerSubscription: Subscription | null = null;
+  isResending: boolean = false;
+
+  private errorTimeout: any;
+
+  // inyección de dependencias, instancian el servicio de auth y el de router
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService, 
+    private router: Router) {}
+
+  ngOnInit(): void {
+    // Leer el parámetro 'registroExitoso' de la URL
+    this.route.queryParams.subscribe((params) => {
+      if (params['registroExitoso'] === 'true') {
+        this.registroExitoso = true; // Mostrar el mensaje
+      }
+    });}
+
+  ngOnDestroy(): void {
+    this.clearTimers();
+  }
+  
+  // Métodos relacionados con el manejo del tiempo para reenviar el correo
+  private clearTimers(): void {
+    if (this.errorTimeout) {
+      clearTimeout(this.errorTimeout);
+    }
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+  }
+
+  startResendTimer(seconds: number): void {
+    this.resendTimer = seconds;
+    this.showResendButton = false;
+    
+    this.timerSubscription = timer(0, 1000).subscribe(() => {
+      this.resendTimer--;
+      
+      if (this.resendTimer <= 0) {
+        this.showResendButton = true;
+        this.timerSubscription?.unsubscribe();
+      }
+    });
+  }
+
+// Método del Guard Exit
   check(): boolean {
     console.log('check() llamado. Comprobando si hay cambios sin guardar...');
     if (this.datosNoGuardados) {
@@ -48,20 +97,6 @@ export class EntrarComponent implements OnInit {
       this.datosNoGuardados = true;
     }
   }
-
-  // inyección de dependencias, instancian el servicio de auth y el de router
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService, 
-    private router: Router) {}
-
-    ngOnInit(): void {
-      // Leer el parámetro 'registroExitoso' de la URL
-      this.route.queryParams.subscribe((params) => {
-        if (params['registroExitoso'] === 'true') {
-          this.registroExitoso = true; // Mostrar el mensaje
-        }
-      });}
 
   onSubmit(): void {
     console.log('onSubmit() llamado. Enviando datos...');
@@ -109,31 +144,56 @@ export class EntrarComponent implements OnInit {
       }, 15000); // 45 segundos
     }
 
-  resendActivationEmail(): void {
-    const userCredentials: Partial<User> = {
+// Método para reenviar el correo de activación ---------------------------------------
+resendActivationEmail(): void {
+  if (this.isResending || this.resendTimer > 0) return;
+  
+  this.isResending = true;
+  const userCredentials: Partial<User> = {
       email: this.email,
       password: this.password,
-    };
-  
-    this.authService.resendActivationEmail(userCredentials as User).subscribe({
-      next: (response) => {
-        console.log('Correo de activación reenviado:', response);
-        this.errorMessage = 'Correo de activación reenviado. Por favor, revisa tu bandeja de entrada.';
-        this.showResendButton = false; // Ocultar el botón después de reenviar
-        this.clearErrorMessage();
+  };
+
+  this.authService.resendActivationEmail(userCredentials as User).subscribe({
+      next: (response: any) => {
+          this.isResending = false;
+          this.errorMessage = 'Nuevo código de verificación enviado. Revisa tu correo.';
+          
+          // Iniciar temporizador con la respuesta del servidor
+          const waitTime = response?.wait_time || 300; // 5 minutos por defecto
+          this.startResendTimer(waitTime);
+          
+          // Opcional: Mostrar hora de expiración
+          if (response?.expires_at) {
+              console.log('El código expira a las:', response.expires_at);
+          }
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error al reenviar el correo de activación:', error);
-        if (error.status === 422) {
-          this.errorMessage = 'Credenciales inválidas. Por favor, verifica tu correo y contraseña.';
-        } else if (error.status === 400) {
-          this.errorMessage = 'La cuenta ya está activada.';
-        } else {
-          this.errorMessage = 'Ocurrió un error al reenviar el correo. Por favor, intenta de nuevo más tarde.';
-        }
-        this.clearErrorMessage();
-      },
-    });
-  }
+          this.isResending = false;
+          
+          if (error.status === 429) {
+              // Manejar error 429 específicamente
+              const waitTime = error.error?.wait_time || 300;
+              this.errorMessage = error.error?.mensaje || 'Debes esperar antes de reenviar';
+              this.startResendTimer(waitTime);
+          } else {
+              // Manejar otros errores
+              this.errorMessage = this.getErrorMessage(error);
+          }
+          
+          this.clearErrorMessage();
+      }
+  });
+}
 
+
+private getErrorMessage(error: HttpErrorResponse): string {
+  switch (error.status) {
+      case 400: return 'La cuenta ya está activada.';
+      case 401: return 'Credenciales inválidas.';
+      case 403: return 'Cuenta no activada. Revisa tu correo.';
+      case 422: return 'Datos inválidos. Verifica tu información.';
+      default: return 'Error al reenviar el código. Intenta nuevamente.';
+  }
+}
 }
