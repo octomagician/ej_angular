@@ -16,7 +16,7 @@
     columns = [
       { key: 'id', label: 'ID' },
       { key: 'numero_cama', label: 'Número de Cama' },
-      { key: 'area_id', label: 'Área ID' },
+      { key: 'area', label: 'Área' },
     ];
   
     constructor(private authService: AuthService, private router: Router) {}
