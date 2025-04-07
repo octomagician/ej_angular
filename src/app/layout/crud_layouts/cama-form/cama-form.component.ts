@@ -10,10 +10,15 @@ import { Check } from '../../../interface/check';
 })
 export class CamaFormComponent implements Check {
   @ViewChild(GenericFormComponent) genericFormComponent!: GenericFormComponent<any>;
-  fields = [
-    { key: 'numero_cama', label: 'Número de Cama', type: 'number' },
-    { key: 'area_id', label: 'Área ID', type: 'number' },
-  ];
+fields = [
+  { key: 'numero_cama', label: 'Número de Cama', type: 'number' },
+  { 
+    key: 'area_id', 
+    label: 'Área', 
+    type: 'dropdown',
+    optionsEndpoint: 'areas' // Nombre del endpoint para obtener las opciones
+  },
+];
 
   check(): boolean {
     return this.genericFormComponent.check();}

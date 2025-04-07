@@ -13,15 +13,23 @@ import { Check } from '../../interface/check';
   templateUrl: './generic-form.component.html',
   styleUrls: ['./generic-form.component.css'],
 })
+
 export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
   @Input() endpoint: string = ''; // Nombre del endpoint (ej: 'camas', 'diagnosticos')
-  @Input() fields: { key: string; label: string; type: string }[] = []; // Campos del formulario
+  @Input() fields: { 
+    key: string; 
+    label: string; 
+    type: string;
+    optionsEndpoint?: string;  // Nueva propiedad
+    required?: boolean;       // Opcional para futuros usos
+  }[] = [];
   @Input() formTitle: string = ''; // Título del formulario (ej: 'Crear Cama', 'Editar Diagnóstico')
 
   genericForm: FormGroup;
   isEditMode = false;
   itemId: number | null = null;
   errorMessage: string | null = null;
+  dropdownOptions: { [key: string]: Array<{ id: number, name: string }> } = {};
 
   constructor(
     private fb: FormBuilder,
@@ -33,6 +41,7 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
   }
 
   ngOnInit(): void {
+    this.loadDropdownOptions();
     // Inicializar el formulario con los campos dinámicos
     this.fields.forEach((field) => {
       if (field.key === 'observaciones') {
@@ -42,14 +51,37 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
         this.genericForm.addControl(field.key, this.fb.control('', Validators.required));
       }
     });
-  
-    // Verificar si estamos en modo edición
-    this.itemId = this.route.snapshot.params['id'];
-    if (this.itemId) {
-      this.isEditMode = true;
-      this.loadItem(this.itemId);
-    }
   }
+
+  private loadDropdownOptions(): void {
+    this.fields.forEach((field) => {
+        if (field.type === 'dropdown' && field.optionsEndpoint) { // Aquí ya verificamos que existe
+            const optionsEndpoint = field.optionsEndpoint; // Creamos variable con tipo string
+            
+            this.genericService.getAll(optionsEndpoint).subscribe(
+                (response: any) => {
+                    // Usamos la variable que sabemos es string
+                    const data = response[optionsEndpoint] || response; //Ahora TS sabe que es string
+                    
+                    this.dropdownOptions[field.key] = data.map((item: any) => ({
+                        id: item.id,
+                        name: item.nombre || item.name
+                    }));
+                },
+                (error) => {
+                    console.error(`Error cargando opciones para ${field.key}:`, error);
+                }
+            );
+        }
+    });
+
+  // Verificar si estamos en modo edición
+  this.itemId = this.route.snapshot.params['id'];
+  if (this.itemId) {
+    this.isEditMode = true;
+    this.loadItem(this.itemId);
+  }
+}
 
   private endpointExceptions: { [key: string]: string } = {
     historial: 'historial', // La clave en la respuesta JSON es "historial"

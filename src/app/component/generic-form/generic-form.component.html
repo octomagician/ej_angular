@@ -9,14 +9,32 @@
     <form [formGroup]="genericForm" (ngSubmit)="onSubmit()">
         <div *ngFor="let field of fields" class="form-group">
             <label [for]="field.key">{{ field.label }}</label>
-            <input
-                [type]="field.type"
-                class="form-control"
-                [id]="field.key"
-                [formControlName]="field.key"
-                (input)="onInputChange()"
+            
+            <!-- Input para tipos no dropdown -->
+            <input *ngIf="field.type !== 'dropdown'"
+              [type]="field.type"
+              class="form-control"
+              [id]="field.key"
+              [formControlName]="field.key"
+              (input)="onInputChange()"
             />
-        </div>
+            
+            <!-- Dropdown para áreas -->
+            <select *ngIf="field.type === 'dropdown'"
+              class="form-control"
+              [id]="field.key"
+              [formControlName]="field.key"
+              (change)="onInputChange()"
+            >
+              <option value="">Seleccione un área</option>
+              <option 
+              *ngFor="let option of dropdownOptions[field.key] || []" 
+              [value]="option.id"
+            >
+              {{ option.name }}
+            </option>
+            </select>
+          </div>
         <button type="submit" class="btn btn-primary">
             {{ isEditMode ? 'Guardar Cambios' : 'Crear ' + formTitle }}
         </button>
