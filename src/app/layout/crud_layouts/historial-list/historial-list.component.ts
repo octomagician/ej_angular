@@ -22,8 +22,14 @@ export class HistorialListComponent implements OnInit, OnDestroy {
   // Columnas para la tabla
   columns = [
     { key: 'id', label: 'ID' },
-    { key: 'ingreso_id', label: 'ID de Ingreso' },
-    { key: 'user_id', label: 'ID de Usuario' },
+    { key: 'ingreso', label: 'Ingreso' },
+    { key: 'personal', label: 'Personal' },
+    { 
+      key: 'fecha', 
+      label: 'Fecha',
+      type: 'date',
+      format: 'dd/MM/yyyy HH:mm'
+    },
     { key: 'presion', label: 'Presión' },
     { key: 'temperatura', label: 'Temperatura' },
     { key: 'glucosa', label: 'Glucosa' },
