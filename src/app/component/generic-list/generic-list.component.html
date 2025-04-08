@@ -37,7 +37,14 @@
         </thead>
         <tbody>
             <tr *ngFor="let item of filteredItems">
-                <td *ngFor="let column of columns">{{ item[column.key] }}</td>
+                <!-- Modificación aquí: -->
+                <td *ngFor="let column of columns">
+                    <span *ngIf="column.type === 'date'; else default">
+                        {{ item[column.key] | date:column.format || 'dd/MM/yyyy HH:mm' }}
+                    </span>
+                    <ng-template #default>{{ item[column.key] }}</ng-template>
+                </td>
+                <!-- Fin de modificación -->
                 <td *ngIf="isAdminUser">
                     <button class="btn btn-warning" (click)="editItem(item.id)"><span class="material-icons">edit</span></button>
                     <button class="btn btn-danger" (click)="deleteItem(item.id)"><span class="material-icons">delete</span></button>
@@ -45,4 +52,3 @@
             </tr>
         </tbody>
     </table>
-</div>

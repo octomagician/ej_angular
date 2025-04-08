@@ -14,7 +14,12 @@ import { BaseItem } from '../../interface/base-item';
 })
 export class GenericListComponent<T extends BaseItem> implements OnInit {
   @Input() endpoint: string = ''; // Nombre del endpoint (ej: 'camas', 'diagnosticos')
-  @Input() columns: { key: string; label: string }[] = []; // Columnas a mostrar
+  @Input() columns: { 
+    key: string; 
+    label: string; 
+    type?: string;    // Nuevo: tipo de dato
+    format?: string;  // Nuevo: formato para fechas
+  }[] = [];
   @Input() isAdminUser: boolean = false; // Verificación de rol
 
   items: T[] = [];

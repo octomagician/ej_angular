@@ -15,8 +15,14 @@ export class EstudioListComponent implements OnInit {
   // Columnas para la tabla
   columns = [
     { key: 'id', label: 'ID' },
-    { key: 'tipos_de_estudios_id', label: 'Tipo de Estudio ID' },
-    { key: 'user_id', label: 'Usuario ID' },
+    { key: 'tipo_estudio', label: 'Tipo de Estudio' },
+    { key: 'personal', label: 'Personal' },
+    { 
+      key: 'fecha', 
+      label: 'Fecha',
+      type: 'date', // Tipo para identificar que es una fecha
+      format: 'dd/MM/yyyy HH:mm' // Formato deseado
+    }
   ];
 
   constructor(private authService: AuthService, private router: Router) {}
