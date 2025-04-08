@@ -63,11 +63,30 @@ export class GenericFormComponent<T extends BaseItem> implements OnInit, Check{
                     // Usamos la variable que sabemos es string
                     const data = response[optionsEndpoint] || response; //Ahora TS sabe que es string
                     
-                    this.dropdownOptions[field.key] = data.map((item: any) => ({
-                        id: item.id,
-                        name: item.nombre || item.name
-                    }));
-                },
+                    this.dropdownOptions[field.key] = data.map((item: any) => {
+                      // Caso especial para users
+                      if (optionsEndpoint === 'users') {
+                          const persona = item.persona || {};
+                          const nombreCompleto = [
+                              persona.nombre,
+                              persona.apellido_paterno,
+                              persona.apellido_materno
+                          ].filter(Boolean).join(' '); // Une solo los campos con valor
+
+                          return {
+                              id: item.id,
+                              name: nombreCompleto || 'Nombre no disponible'
+                          };
+                      }
+
+                      // Caso general para otros endpoints
+                      return {
+                          id: item.id,
+                          name: item.nombre || item.name || 'Nombre no disponible'
+                      };
+                  });
+              },
+
                 (error) => {
                     console.error(`Error cargando opciones para ${field.key}:`, error);
                 }

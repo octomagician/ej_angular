@@ -10,7 +10,7 @@
         <div *ngFor="let field of fields" class="form-group">
             <label [for]="field.key">{{ field.label }}</label>
             
-            <!-- Input para tipos no dropdown -->
+            <!-- Input para no dropdown -->
             <input *ngIf="field.type !== 'dropdown'"
               [type]="field.type"
               class="form-control"
@@ -19,14 +19,14 @@
               (input)="onInputChange()"
             />
             
-            <!-- Dropdown para áreas -->
+            <!-- Dropdown -->
             <select *ngIf="field.type === 'dropdown'"
               class="form-control"
               [id]="field.key"
               [formControlName]="field.key"
               (change)="onInputChange()"
             >
-              <option value="">Seleccione un área</option>
+              <option value="">Selecciona</option>
               <option 
               *ngFor="let option of dropdownOptions[field.key] || []" 
               [value]="option.id"

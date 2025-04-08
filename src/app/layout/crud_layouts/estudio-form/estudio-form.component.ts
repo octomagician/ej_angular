@@ -11,8 +11,18 @@ import { Check } from '../../../interface/check';
 export class EstudioFormComponent implements Check {
   @ViewChild(GenericFormComponent) genericFormComponent!: GenericFormComponent<any>;
   fields = [
-    { key: 'tipos_de_estudios_id', label: 'Tipo de Estudio ID', type: 'number' },
-    { key: 'user_id', label: 'Usuario ID', type: 'number' },
+    { 
+      key: 'tipos_de_estudios_id', 
+      label: 'Tipo de estudio', 
+      type: 'dropdown',
+      optionsEndpoint: 'tipos-de-estudio' // Nombre del endpoint para obtener las opciones
+    },
+    { 
+      key: 'user_id', 
+      label: 'Personal', 
+      type: 'dropdown',
+      optionsEndpoint: 'users' // Nombre del endpoint para obtener las opciones
+    },
   ];
 
   check(): boolean {
